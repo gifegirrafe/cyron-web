@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyron</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
+html{scroll-behavior:smooth;}
+
+body{
+  --bg:#f7fbf8;
+  --card:#ffffff;
+  --text:#101513;
+  --muted:#65726c;
+  --soft:#f0faf4;
+  --border:rgba(0,150,80,0.10);
+  --green:#00c86b;
+  --green-dark:#00994f;
+  --shadow:rgba(20,60,40,0.10);
+  --header:rgba(255,255,255,0.86);
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  transition:.35s ease;
+}
+
+body.dark{
+  --bg:linear-gradient(to right,#020202,#03110a,#062116,#0a2b1d,#123a29);
+  --card:rgba(255,255,255,0.035);
+  --text:#ffffff;
+  --muted:#aab7b0;
+  --soft:rgba(0,210,111,0.08);
+  --border:rgba(0,210,111,0.13);
+  --green:#00d26f;
+  --green-dark:#00994f;
+  --shadow:rgba(0,210,111,0.10);
+  --header:rgba(0,0,0,0.72);
+}
+
+header{
+  width:100%;
+  min-height:74px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 6%;
+  background:var(--header);
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:1000;
+  backdrop-filter:blur(14px);
+  animation:slideDown .7s ease forwards;
+}
+
+.logo-section{display:flex;align-items:center;gap:12px;}
+
+.logo-icon{
+  width:44px;
+  height:44px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--green),var(--green-dark));
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  font-size:23px;
+  font-weight:900;
+  box-shadow:0 12px 25px rgba(0,150,80,.18);
+  transition:.3s ease;
+}
+
+.logo-icon:hover{transform:rotate(-6deg) scale(1.08);}
+
+.logo-text h1{font-size:21px;line-height:1;color:var(--text);}
+.logo-text p{color:var(--muted);font-size:11px;margin-top:4px;}
+
+nav{display:flex;gap:28px;}
+
+nav a{
+  text-decoration:none;
+  color:var(--text);
+  font-size:15px;
+  font-weight:700;
+  transition:.3s ease;
+  position:relative;
+}
+
+nav a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-7px;
+  width:0%;
+  height:2px;
+  background:var(--green);
+  transition:.3s ease;
+  border-radius:20px;
+}
+
+nav a:hover::after,
+nav a.active::after{width:100%;}
+
+nav a:hover,
+.active{color:var(--green);}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.mode-btn,
+.login-btn,
+.logout-btn{
+  text-decoration:none;
+  padding:11px 18px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  font-size:14px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.3s ease;
+}
+
+.login-btn{color:var(--green-dark);}
+
+.mode-btn:hover,
+.login-btn:hover,
+.logout-btn:hover{
+  background:var(--green);
+  color:white;
+  border-color:var(--green);
+  transform:translateY(-3px) scale(1.04);
+}
+
+.user-area{display:flex;align-items:center;gap:14px;}
+.welcome-text{color:var(--green);font-size:14px;font-weight:900;}
+
+.hero{
+  min-height:78vh;
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  align-items:center;
+  gap:50px;
+  padding:35px 6% 70px;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  width:520px;
+  height:520px;
+  border-radius:50%;
+  background:rgba(0,210,111,.12);
+  filter:blur(75px);
+  top:8%;
+  right:-160px;
+  animation:floatGlow 6s ease-in-out infinite;
+}
+
+.hero-content,.hero-visual{position:relative;z-index:1;animation:fadeUp .8s ease forwards;}
+
+.tag{
+  display:inline-flex;
+  padding:10px 18px;
+  border-radius:30px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--green);
+  font-size:14px;
+  font-weight:800;
+  margin-bottom:24px;
+  animation:softPulse 2.8s infinite;
+}
+
+.hero h2{
+  font-size:68px;
+  line-height:1.02;
+  letter-spacing:-2.5px;
+  margin-bottom:24px;
+  color:var(--text);
+}
+
+.hero h2 span{color:var(--green);}
+
+.hero p{
+  color:var(--muted);
+  font-size:19px;
+  line-height:1.8;
+  max-width:620px;
+  margin-bottom:22px;
+}
+
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
+
+.main-btn,
+.secondary-btn,
+.request-btn{
+  display:inline-block;
+  text-decoration:none;
+  padding:15px 28px;
+  border-radius:16px;
+  font-size:16px;
+  font-weight:900;
+  transition:.3s ease;
+}
+
+.main-btn,.request-btn{
+  background:linear-gradient(135deg,var(--green),var(--green-dark));
+  color:white;
+}
+
+.secondary-btn{
+  background:var(--card);
+  color:var(--text);
+  border:1px solid var(--border);
+}
+
+.main-btn:hover,
+.secondary-btn:hover,
+.request-btn:hover{
+  transform:translateY(-4px) scale(1.05);
+}
+
+.dashboard-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:34px;
+  padding:28px;
+  box-shadow:0 30px 70px var(--shadow);
+  transition:.3s ease;
+}
+
+.dashboard-card:hover{transform:translateY(-8px);}
+
+.dash-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+}
+
+.dash-title h3{font-size:24px;color:var(--text);}
+.dash-title p{color:var(--muted);font-size:13px;margin-top:5px;}
+
+.active-pill{
+  padding:9px 14px;
+  border-radius:30px;
+  background:var(--soft);
+  color:var(--green);
+  font-size:13px;
+  font-weight:900;
+}
+
+.campaign-preview{display:flex;flex-direction:column;gap:14px;margin-bottom:22px;}
+
+.campaign-row{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:14px;
+  padding:17px;
+  border-radius:22px;
+  background:var(--soft);
+  border:1px solid var(--border);
+}
+
+.campaign-icon{
+  width:44px;
+  height:44px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--green),var(--green-dark));
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-weight:900;
+}
+
+.campaign-info h4{font-size:16px;color:var(--text);margin-bottom:5px;}
+.campaign-info p{font-size:13px;color:var(--muted);}
+.campaign-money{font-weight:900;color:var(--green);font-size:16px;}
+
+.visual-stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.mini-stat{
+  padding:18px;
+  border-radius:20px;
+  background:var(--soft);
+  border:1px solid var(--border);
+}
+
+.mini-stat h3{color:var(--green);font-size:28px;margin-bottom:5px;}
+.mini-stat p{color:var(--muted);font-size:13px;font-weight:700;}
+
+.separator{
+  width:88%;
+  height:1px;
+  margin:auto;
+  background:linear-gradient(to right,transparent,rgba(0,160,90,.20),transparent);
+}
+
+.how-section{
+  padding:95px 6%;
+  text-align:center;
+}
+
+.section-label{
+  color:var(--green);
+  font-weight:900;
+  font-size:14px;
+  margin-bottom:12px;
+  text-transform:uppercase;
+}
+
+.how-section h2{
+  font-size:42px;
+  margin-bottom:14px;
+  color:var(--text);
+}
+
+.section-text{
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.7;
+  margin:0 auto 54px;
+  max-width:720px;
+}
+
+.cards-container{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+  text-align:left;
+}
+
+.card{
+  background:var(--card);
+  border-radius:28px;
+  padding:30px;
+  border:1px solid var(--border);
+  transition:.3s ease;
+  box-shadow:0 18px 40px var(--shadow);
+}
+
+.card:hover{transform:translateY(-8px);}
+
+.icon{
+  width:48px;
+  height:48px;
+  border-radius:16px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:var(--soft);
+  color:var(--green);
+  font-weight:900;
+  font-size:18px;
+}
+
+.card h3{margin:22px 0 12px;font-size:22px;color:var(--text);}
+.card p{color:var(--muted);font-size:15px;line-height:1.8;}
+
+.cta-section{padding:20px 6% 95px;}
+
+.cta-card{
+  border-radius:34px;
+  padding:48px;
+  background:var(--card);
+  border:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:30px;
+  box-shadow:0 25px 65px var(--shadow);
+}
+
+.cta-card h2{font-size:38px;color:var(--text);margin-bottom:10px;}
+.cta-card p{color:var(--muted);font-size:16px;line-height:1.7;}
+
+@keyframes slideDown{
+  from{opacity:0;transform:translateY(-20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(28px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes softPulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.03);}
+  100%{transform:scale(1);}
+}
+
+@keyframes floatGlow{
+  0%{transform:translateY(0) scale(1);}
+  50%{transform:translateY(-25px) scale(1.08);}
+  100%{transform:translateY(0) scale(1);}
+}
+
+@media(max-width:950px){
+  header{flex-direction:column;height:auto;padding:18px;gap:16px;}
+  nav{gap:16px;flex-wrap:wrap;justify-content:center;}
+  .header-actions{justify-content:center;}
+  .hero{grid-template-columns:1fr;}
+  .hero h2{font-size:46px;}
+  .cards-container{grid-template-columns:1fr;}
+  .cta-card{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo-section">
+    <div class="logo-icon">C</div>
+    <div class="logo-text">
+      <h1>CYRON</h1>
+      <p>Creator Campaign Platform</p>
+    </div>
+  </div>
+
+  <nav>
+    <a href="index.html" class="active">Home</a>
+    <a href="cyroncampaign.html">Campaigns</a>
+    <a href="cyronpayments.html">Payments</a>
+    <a href="cyrondashboard.html">Dashboard</a>
+  </nav>
+
+  <div class="header-actions">
+    <button class="mode-btn" id="modeBtn" onclick="toggleMode()">Dark Mode</button>
+
+    <div id="authArea">
+      <a href="cyroncreatorlogin.html" class="login-btn">Creator Login</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="tag">⚡ Creator campaigns are open</div>
+
+    <h2>
+      Connect with campaigns.<br>
+      Submit content.<br>
+      Earn with <span>Cyron.</span>
+    </h2>
+
+    <p>
+      Cyron helps creators discover sponsor campaigns, submit content links,
+      track approvals, and request payouts from one simple creator dashboard.
+    </p>
+
+    <div class="hero-actions">
+      <a href="cyroncampaign.html" class="main-btn">Explore Campaigns</a>
+      <a href="cyronpayments.html" class="secondary-btn">View Payments</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="dashboard-card">
+      <div class="dash-top">
+        <div class="dash-title">
+          <h3>Campaign Hub</h3>
+          <p>Live sponsor opportunities</p>
+        </div>
+
+        <div class="active-pill">1 Active</div>
+      </div>
+
+      <div class="campaign-preview">
+        <div class="campaign-row">
+          <div class="campaign-icon">S</div>
+
+          <div class="campaign-info">
+            <h4>Starpets Sponsor</h4>
+            <p>YouTube Shorts campaign</p>
+          </div>
+
+          <div class="campaign-money">$0.50 / 1k</div>
+        </div>
+      </div>
+
+      <div class="visual-stats">
+        <div class="mini-stat">
+          <h3>$0.50</h3>
+          <p>per 1,000 views</p>
+        </div>
+
+        <div class="mini-stat">
+          <h3>$150</h3>
+          <p>max payout per video</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="separator"></div>
+
+<section class="how-section">
+  <div class="section-label">How it works</div>
+
+  <h2>Built for creators who move fast</h2>
+
+  <p class="section-text">
+    Choose a campaign, submit your content link, wait for admin review,
+    and request payout once your submission is approved.
+  </p>
+
+  <div class="cards-container">
+    <div class="card">
+      <div class="icon">01</div>
+      <h3>Choose a Campaign</h3>
+      <p>Browse active sponsor opportunities and pick the campaign that fits your content style.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">02</div>
+      <h3>Submit Content</h3>
+      <p>Add your video or social content link for admin review and campaign approval.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">03</div>
+      <h3>Track & Get Paid</h3>
+      <p>Monitor your submissions, earnings, approval status, and payout requests from your dashboard.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="cta-card">
+    <div>
+      <h2>Ready to build with Cyron?</h2>
+      <p>Join campaign opportunities and turn your creator content into real sponsor payouts.</p>
+    </div>
+
+    <a href="cyroncreatorlogin.html" class="request-btn">Request Creator Access</a>
+  </div>
+</section>
+
+<script>
+function applyTheme(){
+  const modeBtn = document.getElementById("modeBtn");
+  const savedMode = localStorage.getItem("cyronTheme");
+
+  if(savedMode === "dark"){
+    document.body.classList.add("dark");
+    if(modeBtn) modeBtn.textContent = "Light Mode";
+  } else {
+    document.body.classList.remove("dark");
+    if(modeBtn) modeBtn.textContent = "Dark Mode";
+  }
+}
+
+function toggleMode(){
+  document.body.classList.toggle("dark");
+
+  if(document.body.classList.contains("dark")){
+    localStorage.setItem("cyronTheme","dark");
+  } else {
+    localStorage.setItem("cyronTheme","light");
+  }
+
+  applyTheme();
+}
+
+applyTheme();
+</script>
+
+<script type="module">
+import { auth } from "./firebase.js";
+
+import {
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const authArea = document.getElementById("authArea");
+
+onAuthStateChanged(auth,function(user){
+  if(user){
+    const creatorName = user.displayName || user.email.split("@")[0];
+
+    authArea.innerHTML = `
+      <div class="user-area">
+        <span class="welcome-text">${creatorName}</span>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
+    `;
+
+    document.getElementById("logoutBtn").addEventListener("click",async function(){
+      await signOut(auth);
+      window.location.reload();
+    });
+
+  } else {
+    authArea.innerHTML = `
+      <a href="cyroncreatorlogin.html" class="login-btn">Creator Login</a>
+    `;
+  }
+});
+</script>
+
+</body>
+</html>

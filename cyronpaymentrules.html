@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Cyron Payment Rules</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      --bg:#f7fbf8;
+      --card:#ffffff;
+      --text:#101513;
+      --muted:#65726c;
+      --soft:#f0faf4;
+      --border:rgba(0,150,80,0.10);
+      --green:#00c86b;
+      --green-dark:#00994f;
+      --shadow:rgba(20,60,40,0.10);
+      --header:rgba(255,255,255,0.86);
+
+      background:var(--bg);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+
+    body.dark{
+      --bg:linear-gradient(to right,#020202,#03110a,#062116,#0a2b1d,#123a29);
+      --card:rgba(255,255,255,0.035);
+      --text:#ffffff;
+      --muted:#aab7b0;
+      --soft:rgba(0,210,111,0.08);
+      --border:rgba(0,210,111,0.13);
+      --green:#00d26f;
+      --green-dark:#00994f;
+      --shadow:rgba(0,210,111,0.10);
+      --header:rgba(0,0,0,0.72);
+    }
+
+    header{
+      min-height:74px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:0 6%;
+      background:var(--header);
+      border-bottom:1px solid var(--border);
+      position:sticky;
+      top:0;
+      z-index:1000;
+      backdrop-filter:blur(14px);
+      animation:slideDown .7s ease forwards;
+    }
+
+    .logo-section{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .logo-icon{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--green),var(--green-dark));
+      color:white;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-size:23px;
+      font-weight:900;
+    }
+
+    .logo-text h1{
+      font-size:21px;
+      color:var(--text);
+    }
+
+    .logo-text p{
+      font-size:11px;
+      color:var(--muted);
+      margin-top:4px;
+    }
+
+    nav{
+      display:flex;
+      gap:28px;
+      flex-wrap:wrap;
+    }
+
+    nav a{
+      text-decoration:none;
+      color:var(--text);
+      font-size:15px;
+      font-weight:900;
+      position:relative;
+      transition:.3s ease;
+    }
+
+    nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-7px;
+      width:0%;
+      height:2px;
+      background:var(--green);
+      transition:.3s ease;
+    }
+
+    nav a:hover::after,
+    nav a.active::after{
+      width:100%;
+    }
+
+    nav a:hover,
+    nav a.active{
+      color:var(--green);
+    }
+
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .mode-btn,
+    .login-btn,
+    .logout-btn{
+      text-decoration:none;
+      padding:11px 18px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:var(--card);
+      color:var(--text);
+      font-size:14px;
+      font-weight:900;
+      cursor:pointer;
+      transition:.3s ease;
+    }
+
+    .login-btn{
+      color:var(--green);
+    }
+
+    .mode-btn:hover,
+    .login-btn:hover,
+    .logout-btn:hover{
+      background:var(--green);
+      color:white;
+      border-color:var(--green);
+      transform:translateY(-3px) scale(1.04);
+      box-shadow:0 14px 28px rgba(0,200,107,.18);
+    }
+
+    .welcome-text{
+      color:var(--green);
+      font-size:14px;
+      font-weight:900;
+    }
+
+    .page{
+      min-height:100vh;
+      padding:44px 6% 95px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .page::before{
+      content:"";
+      position:absolute;
+      width:500px;
+      height:500px;
+      border-radius:50%;
+      background:rgba(0,210,111,.12);
+      filter:blur(80px);
+      top:1%;
+      right:-170px;
+      animation:floatGlow 6s ease-in-out infinite;
+    }
+
+    .page-title{
+      position:relative;
+      z-index:1;
+      max-width:850px;
+      margin-bottom:36px;
+      animation:fadeUp .8s ease forwards;
+    }
+
+    .tag{
+      display:inline-flex;
+      padding:10px 18px;
+      border-radius:30px;
+      border:1px solid var(--border);
+      background:var(--card);
+      color:var(--green);
+      font-size:14px;
+      font-weight:900;
+      margin-bottom:18px;
+      box-shadow:0 12px 28px var(--shadow);
+    }
+
+    .page-title h2{
+      font-size:58px;
+      line-height:1.05;
+      letter-spacing:-2px;
+      margin-bottom:16px;
+      color:var(--text);
+    }
+
+    .page-title h2 span{
+      color:var(--green);
+    }
+
+    .page-title p{
+      color:var(--muted);
+      font-size:17px;
+      line-height:1.8;
+      max-width:780px;
+    }
+
+    .quick-grid{
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+      margin-bottom:28px;
+    }
+
+    .quick-card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:26px;
+      padding:24px;
+      box-shadow:0 20px 48px var(--shadow);
+      animation:fadeUp .8s ease forwards;
+      transition:.3s ease;
+    }
+
+    .quick-card:hover{
+      transform:translateY(-7px);
+    }
+
+    .quick-card h3{
+      color:var(--green);
+      font-size:32px;
+      margin-bottom:8px;
+    }
+
+    .quick-card p{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.6;
+      font-weight:800;
+    }
+
+    .content-layout{
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:28px;
+      align-items:start;
+    }
+
+    .panel{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:34px;
+      padding:32px;
+      box-shadow:0 28px 65px var(--shadow);
+      animation:fadeUp .9s ease forwards;
+      transition:.3s ease;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .panel::before,
+    .rule-item::before,
+    .step-card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:-100%;
+      width:100%;
+      height:100%;
+      background:linear-gradient(120deg,transparent,rgba(0,210,111,0.08),transparent);
+      transition:.6s;
+      pointer-events:none;
+    }
+
+    .panel:hover::before,
+    .rule-item:hover::before,
+    .step-card:hover::before{
+      left:100%;
+    }
+
+    .panel:hover{
+      transform:translateY(-6px);
+    }
+
+    .panel h3{
+      font-size:30px;
+      color:var(--text);
+      margin-bottom:22px;
+      position:relative;
+      z-index:1;
+    }
+
+    .rule-list{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      position:relative;
+      z-index:1;
+    }
+
+    .rule-item{
+      padding:18px;
+      border-radius:22px;
+      background:var(--soft);
+      border:1px solid var(--border);
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      transition:.3s ease;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .rule-item:hover{
+      transform:translateX(6px);
+    }
+
+    .rule-icon{
+      width:42px;
+      height:42px;
+      border-radius:15px;
+      background:linear-gradient(135deg,var(--green),var(--green-dark));
+      color:white;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-weight:900;
+      flex-shrink:0;
+    }
+
+    .rule-item h4{
+      color:var(--text);
+      font-size:18px;
+      margin-bottom:6px;
+      position:relative;
+      z-index:1;
+    }
+
+    .rule-item p{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.7;
+      position:relative;
+      z-index:1;
+    }
+
+    .steps-grid{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      position:relative;
+      z-index:1;
+    }
+
+    .step-card{
+      padding:20px;
+      border-radius:24px;
+      background:var(--soft);
+      border:1px solid var(--border);
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:16px;
+      align-items:flex-start;
+      transition:.3s ease;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .step-card:hover{
+      transform:translateX(6px);
+    }
+
+    .step-num{
+      width:48px;
+      height:48px;
+      border-radius:16px;
+      background:linear-gradient(135deg,var(--green),var(--green-dark));
+      color:white;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-weight:900;
+      font-size:18px;
+    }
+
+    .step-card h4{
+      color:var(--text);
+      font-size:19px;
+      margin-bottom:7px;
+      position:relative;
+      z-index:1;
+    }
+
+    .step-card p{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.7;
+      position:relative;
+      z-index:1;
+    }
+
+    .notice-box{
+      position:relative;
+      z-index:1;
+      margin-top:28px;
+      padding:28px;
+      border-radius:30px;
+      background:var(--card);
+      border:1px solid var(--border);
+      box-shadow:0 24px 55px var(--shadow);
+      animation:fadeUp 1s ease forwards;
+    }
+
+    .notice-box h3{
+      font-size:26px;
+      color:var(--text);
+      margin-bottom:10px;
+    }
+
+    .notice-box p{
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.8;
+    }
+
+    .action-row{
+      margin-top:22px;
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    .main-btn,
+    .secondary-btn{
+      text-decoration:none;
+      padding:15px 24px;
+      border-radius:16px;
+      font-size:15px;
+      font-weight:900;
+      transition:.3s ease;
+    }
+
+    .main-btn{
+      background:linear-gradient(135deg,var(--green),var(--green-dark));
+      color:white;
+      box-shadow:0 14px 30px rgba(0,170,95,.22);
+    }
+
+    .secondary-btn{
+      background:var(--soft);
+      color:var(--text);
+      border:1px solid var(--border);
+    }
+
+    .main-btn:hover,
+    .secondary-btn:hover{
+      transform:translateY(-4px) scale(1.04);
+      box-shadow:0 18px 35px rgba(0,170,95,.24);
+    }
+
+    @keyframes slideDown{
+      from{opacity:0;transform:translateY(-20px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(28px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    @keyframes floatGlow{
+      0%{transform:translateY(0) scale(1);}
+      50%{transform:translateY(-25px) scale(1.08);}
+      100%{transform:translateY(0) scale(1);}
+    }
+
+    @media(max-width:1000px){
+      header{
+        flex-direction:column;
+        height:auto;
+        padding:18px;
+        gap:16px;
+      }
+
+      nav{
+        justify-content:center;
+      }
+
+      .quick-grid,
+      .content-layout{
+        grid-template-columns:1fr;
+      }
+
+      .page-title h2{
+        font-size:42px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+
+    <div class="logo-section">
+      <div class="logo-icon">C</div>
+
+      <div class="logo-text">
+        <h1>CYRON</h1>
+        <p>Payment Guide</p>
+      </div>
+    </div>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="cyroncampaign.html">Campaigns</a>
+      <a href="cyronpayments.html">Payments</a>
+      <a href="cyronpaymentrules.html" class="active">Rules</a>
+      <a href="cyrondashboard.html">Dashboard</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="mode-btn" id="modeBtn" onclick="toggleMode()">Dark Mode</button>
+      <div id="authArea"></div>
+    </div>
+
+  </header>
+
+  <section class="page">
+
+    <div class="page-title">
+
+      <div class="tag">
+        Payment rules & request guide
+      </div>
+
+      <h2>
+        Understand how
+        <span>Cyron payouts</span>
+        work.
+      </h2>
+
+      <p>
+        Learn the basic payment rules, what makes a submission eligible,
+        and the correct steps to request your creator payout.
+      </p>
+
+    </div>
+
+    <div class="quick-grid">
+
+      <div class="quick-card">
+        <h3>$0.50</h3>
+        <p>Paid per 1,000 verified views on approved submissions.</p>
+      </div>
+
+      <div class="quick-card">
+        <h3>$150</h3>
+        <p>Maximum payout cap per approved video.</p>
+      </div>
+
+      <div class="quick-card">
+        <h3>10 Days</h3>
+        <p>Estimated payout processing time after request submission.</p>
+      </div>
+
+    </div>
+
+    <div class="content-layout">
+
+      <div class="panel">
+
+        <h3>Payment Rules</h3>
+
+        <div class="rule-list">
+
+          <div class="rule-item">
+            <div class="rule-icon">1</div>
+            <div>
+              <h4>Only approved videos count</h4>
+              <p>
+                A video must be approved by admin before it becomes eligible for payout.
+              </p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-icon">2</div>
+            <div>
+              <h4>Views must be verified</h4>
+              <p>
+                YouTube views are synced using the submitted public video link.
+                Private, deleted, or restricted videos may not count.
+              </p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-icon">3</div>
+            <div>
+              <h4>Maximum cap per video</h4>
+              <p>
+                Each approved video can earn up to $150 unless admin manually decides otherwise.
+              </p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-icon">4</div>
+            <div>
+              <h4>No duplicate payout requests</h4>
+              <p>
+                Once a video is requested for payout, it cannot be selected again for another request.
+              </p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-icon">5</div>
+            <div>
+              <h4>Admin review is required</h4>
+              <p>
+                Every payout request starts as Pending and can be marked Approved, Rejected, or Paid by admin.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="panel">
+
+        <h3>How to Request Payment</h3>
+
+        <div class="steps-grid">
+
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div>
+              <h4>Submit your campaign content</h4>
+              <p>
+                Go to the Campaigns page and submit your public YouTube Shorts or content link.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div>
+              <h4>Wait for admin approval</h4>
+              <p>
+                Your content will show as Under Process until admin approves or rejects it.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <div>
+              <h4>Sync views in dashboard</h4>
+              <p>
+                Use the Dashboard to sync YouTube views and calculate estimated earnings.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-num">4</div>
+            <div>
+              <h4>Open the Payments page</h4>
+              <p>
+                Approved videos that are not already requested will appear in the payout selection list.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-num">5</div>
+            <div>
+              <h4>Choose method and submit</h4>
+              <p>
+                Select PayPal, USDT TRC20, or Robux, enter your payment address, and submit the request.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-num">6</div>
+            <div>
+              <h4>Track status in My Payouts</h4>
+              <p>
+                Go to My Payouts to see whether your request is Pending, Approved, Rejected, or Paid.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="notice-box">
+
+      <h3>Important reminder</h3>
+
+      <p>
+        Cyron saves creator accounts, submissions, approvals, and payout requests using Firebase.
+        This helps payment data stay available across supported devices and sessions.
+      </p>
+
+      <div class="action-row">
+        <a href="cyronpayments.html" class="main-btn">Go to Payments</a>
+        <a href="cyronpayoutrequests.html" class="secondary-btn">View My Payouts</a>
+      </div>
+
+    </div>
+
+  </section>
+
+  <script type="module">
+  import { auth } from "./firebase.js";
+
+  import {
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  let modeBtn = document.getElementById("modeBtn");
+  let authArea = document.getElementById("authArea");
+
+  let savedMode = localStorage.getItem("cyronTheme");
+
+  if(savedMode === "dark"){
+    document.body.classList.add("dark");
+    modeBtn.textContent = "Light Mode";
+  } else {
+    document.body.classList.remove("dark");
+    modeBtn.textContent = "Dark Mode";
+  }
+
+  window.toggleMode = function(){
+    document.body.classList.toggle("dark");
+
+    if(document.body.classList.contains("dark")){
+      localStorage.setItem("cyronTheme","dark");
+      modeBtn.textContent = "Light Mode";
+    } else {
+      localStorage.setItem("cyronTheme","light");
+      modeBtn.textContent = "Dark Mode";
+    }
+  }
+
+  onAuthStateChanged(auth, function(user){
+    if(user){
+      let creatorName = user.displayName || user.email.split("@")[0];
+
+      authArea.innerHTML = `
+        <span class="welcome-text">${creatorName}</span>
+        <button class="logout-btn" onclick="logoutUser()">Logout</button>
+      `;
+    } else {
+      authArea.innerHTML = `
+        <a href="cyroncreatorlogin.html" class="login-btn">Creator Login</a>
+      `;
+    }
+  });
+
+  window.logoutUser = async function(){
+    await signOut(auth);
+    window.location.href = "cyronhomepage.html";
+  }
+</script>
+
+</body>
+</html>

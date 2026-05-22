@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyron My Payouts</title>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;}
+    html{scroll-behavior:smooth;}
+
+    body{
+      --bg:#f7fbf8;
+      --card:#ffffff;
+      --text:#101513;
+      --muted:#65726c;
+      --soft:#f0faf4;
+      --border:rgba(0,150,80,0.10);
+      --green:#00c86b;
+      --green-dark:#00994f;
+      --shadow:rgba(20,60,40,0.10);
+      --header:rgba(255,255,255,0.86);
+      background:var(--bg);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+
+    body.dark{
+      --bg:linear-gradient(to right,#020202,#03110a,#062116,#0a2b1d,#123a29);
+      --card:rgba(255,255,255,0.035);
+      --text:#ffffff;
+      --muted:#aab7b0;
+      --soft:rgba(0,210,111,0.08);
+      --border:rgba(0,210,111,0.13);
+      --green:#00d26f;
+      --green-dark:#00994f;
+      --shadow:rgba(0,210,111,0.10);
+      --header:rgba(0,0,0,0.72);
+    }
+
+    header{
+      min-height:74px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:0 6%;
+      background:var(--header);
+      border-bottom:1px solid var(--border);
+      position:sticky;
+      top:0;
+      z-index:1000;
+      backdrop-filter:blur(14px);
+      animation:slideDown .7s ease forwards;
+    }
+
+    .logo-section{display:flex;align-items:center;gap:12px;}
+
+    .logo-icon{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--green),var(--green-dark));
+      color:white;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-size:23px;
+      font-weight:900;
+    }
+
+    .logo-text h1{font-size:21px;color:var(--text);}
+    .logo-text p{font-size:11px;color:var(--muted);margin-top:4px;}
+
+    nav{display:flex;gap:28px;flex-wrap:wrap;}
+
+    nav a{
+      text-decoration:none;
+      color:var(--text);
+      font-size:15px;
+      font-weight:900;
+      position:relative;
+      transition:.3s ease;
+    }
+
+    nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-7px;
+      width:0%;
+      height:2px;
+      background:var(--green);
+      transition:.3s ease;
+    }
+
+    nav a:hover::after,
+    nav a.active::after{width:100%;}
+
+    nav a:hover,
+    nav a.active{color:var(--green);}
+
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .mode-btn,
+    .logout-btn{
+      padding:11px 18px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:var(--card);
+      color:var(--text);
+      font-size:14px;
+      font-weight:900;
+      cursor:pointer;
+      transition:.3s ease;
+    }
+
+    .mode-btn:hover,
+    .logout-btn:hover{
+      background:var(--green);
+      color:white;
+      border-color:var(--green);
+      transform:translateY(-3px) scale(1.04);
+      box-shadow:0 14px 28px rgba(0,200,107,.18);
+    }
+
+    .welcome-text{
+      color:var(--green);
+      font-size:14px;
+      font-weight:900;
+    }
+
+    .page{
+      min-height:100vh;
+      padding:42px 6% 90px;
+    }
+
+    .page-title{
+      margin-bottom:32px;
+      animation:fadeUp .8s ease forwards;
+    }
+
+    .tag{
+      display:inline-flex;
+      padding:10px 18px;
+      border-radius:30px;
+      border:1px solid var(--border);
+      background:var(--card);
+      color:var(--green);
+      font-size:14px;
+      font-weight:900;
+      margin-bottom:18px;
+      box-shadow:0 12px 28px var(--shadow);
+    }
+
+    .page-title h2{
+      font-size:56px;
+      line-height:1.05;
+      letter-spacing:-2px;
+      margin-bottom:14px;
+    }
+
+    .page-title h2 span{color:var(--green);}
+
+    .page-title p{
+      color:var(--muted);
+      font-size:17px;
+      line-height:1.7;
+      max-width:760px;
+    }
+
+    .stats-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:18px;
+      margin-bottom:30px;
+    }
+
+    .stat-card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:26px;
+      padding:24px;
+      box-shadow:0 20px 48px var(--shadow);
+      transition:.3s ease;
+      animation:fadeUp .8s ease forwards;
+    }
+
+    .stat-card:hover{transform:translateY(-7px);}
+
+    .stat-card .label{
+      color:var(--muted);
+      font-size:13px;
+      font-weight:900;
+      margin-bottom:10px;
+    }
+
+    .stat-card .value{
+      color:var(--green);
+      font-size:34px;
+      font-weight:900;
+    }
+
+    .panel{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:34px;
+      padding:30px;
+      box-shadow:0 28px 65px var(--shadow);
+      animation:fadeUp .9s ease forwards;
+    }
+
+    .panel-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      flex-wrap:wrap;
+      margin-bottom:24px;
+    }
+
+    .panel-top h3{font-size:28px;}
+    .panel-top span{color:var(--green);font-weight:900;}
+
+    .payout-list{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .payout-card{
+      padding:26px;
+      border-radius:28px;
+      background:var(--soft);
+      border:1px solid var(--border);
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:22px;
+      align-items:center;
+      transition:.3s ease;
+      animation:fadeUp .7s ease forwards;
+    }
+
+    .payout-card:hover{transform:translateY(-4px);}
+
+    .payout-card h4{
+      font-size:24px;
+      margin-bottom:10px;
+      color:var(--text);
+    }
+
+    .payout-card p{
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.7;
+      word-break:break-all;
+      margin-top:3px;
+    }
+
+    .method-badge{
+      display:inline-block;
+      margin-bottom:12px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:var(--card);
+      border:1px solid var(--border);
+      color:var(--green);
+      font-size:13px;
+      font-weight:900;
+    }
+
+    .video-box{
+      margin-top:16px;
+      padding:16px;
+      border-radius:20px;
+      background:var(--card);
+      border:1px solid var(--border);
+    }
+
+    .video-box strong{color:var(--text);}
+
+    .right-side{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:16px;
+      min-width:260px;
+    }
+
+    .amount-box{
+      width:100%;
+      padding:20px;
+      border-radius:22px;
+      background:var(--card);
+      border:1px solid var(--border);
+      text-align:center;
+    }
+
+    .amount-box small{
+      display:block;
+      color:var(--muted);
+      font-size:13px;
+      font-weight:900;
+      margin-bottom:8px;
+    }
+
+    .amount-box strong{
+      color:var(--green);
+      font-size:32px;
+      font-weight:900;
+    }
+
+    .status-pill{
+      width:100%;
+      padding:14px 20px;
+      border-radius:999px;
+      text-align:center;
+      font-weight:900;
+      font-size:15px;
+    }
+
+    .pending{
+      color:#ad7600;
+      background:rgba(255,209,102,.18);
+      border:1px solid rgba(255,209,102,.34);
+    }
+
+    .approved{
+      color:var(--green);
+      background:rgba(0,210,111,.12);
+      border:1px solid rgba(0,210,111,.25);
+    }
+
+    .rejected{
+      color:#ff5c5c;
+      background:rgba(255,92,92,.12);
+      border:1px solid rgba(255,92,92,.25);
+    }
+
+    .paid{
+      color:#3d8bff;
+      background:rgba(61,139,255,.12);
+      border:1px solid rgba(61,139,255,.25);
+    }
+
+    .empty-box{
+      padding:24px;
+      border-radius:24px;
+      background:var(--soft);
+      border:1px solid var(--border);
+      color:var(--muted);
+      font-weight:800;
+      line-height:1.7;
+    }
+
+    @keyframes slideDown{
+      from{opacity:0;transform:translateY(-20px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(28px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    @media(max-width:1050px){
+      header{
+        flex-direction:column;
+        height:auto;
+        padding:18px;
+        gap:16px;
+      }
+
+      nav{justify-content:center;}
+
+      .stats-grid{grid-template-columns:1fr 1fr;}
+
+      .payout-card{grid-template-columns:1fr;}
+
+      .right-side{
+        align-items:flex-start;
+        min-width:auto;
+      }
+    }
+
+    @media(max-width:650px){
+      .stats-grid{grid-template-columns:1fr;}
+      .page-title h2{font-size:40px;}
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+
+    <div class="logo-section">
+      <div class="logo-icon">C</div>
+
+      <div class="logo-text">
+        <h1>CYRON</h1>
+        <p>Creator Campaign Platform</p>
+      </div>
+    </div>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="cyroncampaign.html">Campaigns</a>
+      <a href="cyronpayments.html">Payments</a>
+      <a href="cyrondashboard.html">Dashboard</a>
+      <a href="cyronpayoutrequests.html" class="active">My Payouts</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="mode-btn" id="modeBtn" onclick="toggleMode()">Dark Mode</button>
+      <span class="welcome-text" id="headerName">Creator</span>
+      <button class="logout-btn" onclick="logoutUser()">Logout</button>
+    </div>
+
+  </header>
+
+  <section class="page">
+
+    <div class="page-title">
+      <div class="tag">My payout history</div>
+
+      <h2>
+        Track your
+        <span>payment status.</span>
+      </h2>
+
+      <p>
+        View all payout requests submitted from your approved Cyron campaign videos.
+        Admin status updates will appear here.
+      </p>
+    </div>
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <div class="label">Total Requests</div>
+        <div class="value" id="totalRequests">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="label">Pending</div>
+        <div class="value" id="pendingRequests">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="label">Paid</div>
+        <div class="value" id="paidRequests">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="label">Total Requested</div>
+        <div class="value" id="totalAmount">$0.00</div>
+      </div>
+
+    </div>
+
+    <div class="panel">
+
+      <div class="panel-top">
+        <h3>Payment Requests</h3>
+        <span id="requestCountText">0 requests</span>
+      </div>
+
+      <div class="payout-list" id="payoutList"></div>
+
+    </div>
+
+  </section>
+
+  <script type="module">
+    import { auth, db } from "./firebase.js";
+
+    import {
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    import {
+      collection,
+      getDocs,
+      query,
+      where
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    let modeBtn = document.getElementById("modeBtn");
+    let currentUser = null;
+    let currentName = "Creator";
+
+    let savedMode = localStorage.getItem("cyronTheme");
+
+    if(savedMode === "dark"){
+      document.body.classList.add("dark");
+      modeBtn.textContent = "Light Mode";
+    }
+
+    window.toggleMode = function(){
+      document.body.classList.toggle("dark");
+
+      if(document.body.classList.contains("dark")){
+        localStorage.setItem("cyronTheme","dark");
+        modeBtn.textContent = "Light Mode";
+      } else {
+        localStorage.setItem("cyronTheme","light");
+        modeBtn.textContent = "Dark Mode";
+      }
+    }
+
+    onAuthStateChanged(auth, function(user){
+      if(!user){
+        window.location.href = "cyroncreatorlogin.html";
+        return;
+      }
+
+      currentUser = user.email;
+      currentName = user.displayName || user.email.split("@")[0];
+
+      document.getElementById("headerName").textContent = currentName;
+
+      loadPayoutRequests();
+    });
+
+    function getStatusClass(status){
+      if(status === "Approved"){
+        return "approved";
+      }
+
+      if(status === "Rejected"){
+        return "rejected";
+      }
+
+      if(status === "Paid"){
+        return "paid";
+      }
+
+      return "pending";
+    }
+
+    async function loadPayoutRequests(){
+      let payoutQuery = query(
+        collection(db, "payoutRequests"),
+        where("creatorEmail", "==", currentUser)
+      );
+
+      let snapshot = await getDocs(payoutQuery);
+
+      let myRequests = [];
+
+      snapshot.forEach(function(docItem){
+        myRequests.push({
+          id: docItem.id,
+          ...docItem.data()
+        });
+      });
+
+      let pending = myRequests.filter(function(request){
+        return (request.status || "Pending") === "Pending";
+      });
+
+      let paid = myRequests.filter(function(request){
+        return request.status === "Paid";
+      });
+
+      let totalAmount = 0;
+
+      myRequests.forEach(function(request){
+        totalAmount += Number(request.amount || 0);
+      });
+
+      document.getElementById("totalRequests").textContent = myRequests.length;
+      document.getElementById("pendingRequests").textContent = pending.length;
+      document.getElementById("paidRequests").textContent = paid.length;
+      document.getElementById("totalAmount").textContent = "$" + totalAmount.toFixed(2);
+
+      document.getElementById("requestCountText").textContent =
+      myRequests.length + " requests";
+
+      showRequests(myRequests);
+    }
+
+    function showRequests(requests){
+      let list = document.getElementById("payoutList");
+      list.innerHTML = "";
+
+      if(requests.length === 0){
+        list.innerHTML = `
+          <div class="empty-box">
+            No payout requests yet. Go to the Payments page after your video is approved and submit a payout request.
+          </div>
+        `;
+        return;
+      }
+
+      requests.reverse().forEach(function(request, index){
+        let status = request.status || "Pending";
+        let statusClass = getStatusClass(status);
+
+        let videosHTML = "";
+
+        if(request.videos && request.videos.length > 0){
+          request.videos.forEach(function(video, videoIndex){
+            videosHTML += `
+              <p>
+                <strong>Video ${videoIndex + 1}:</strong>
+                ${video.link}
+              </p>
+            `;
+          });
+        } else {
+          videosHTML = `<p>No videos attached.</p>`;
+        }
+
+        let card = document.createElement("div");
+        card.className = "payout-card";
+        card.style.animationDelay = `${index * 0.08}s`;
+
+        card.innerHTML = `
+          <div>
+            <span class="method-badge">
+              ${request.method || "Payment Method"}
+            </span>
+
+            <h4>${request.creatorName || "Creator"}'s Payout</h4>
+
+            <p><strong>Payment Address:</strong> ${request.address || "No address"}</p>
+            <p><strong>Date:</strong> ${request.date || "No date"}</p>
+
+            <div class="video-box">
+              ${videosHTML}
+            </div>
+          </div>
+
+          <div class="right-side">
+            <div class="amount-box">
+              <small>Amount</small>
+              <strong>$${Number(request.amount || 0).toFixed(2)}</strong>
+            </div>
+
+            <div class="status-pill ${statusClass}">
+              ${status}
+            </div>
+          </div>
+        `;
+
+        list.appendChild(card);
+      });
+    }
+
+    window.logoutUser = async function(){
+      await signOut(auth);
+      window.location.href = "cyroncreatorlogin.html";
+    }
+  </script>
+
+</body>
+</html>
