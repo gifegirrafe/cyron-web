@@ -6,329 +6,433 @@
 <title>Cyron Dashboard</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
+html{scroll-behavior:smooth;}
 
 body{
---bg:#f7fbf8;
---card:#fff;
---text:#101513;
---muted:#66736d;
---soft:#eefaf3;
---border:rgba(0,150,80,.12);
---green:#00c86b;
---green-dark:#00994f;
---shadow:rgba(20,60,40,.10);
---header:rgba(255,255,255,.88);
-
-background:var(--bg);
-color:var(--text);
-overflow-x:hidden;
-transition:.3s;
+  --bg:#f7fbf8;
+  --card:#fff;
+  --text:#101513;
+  --muted:#66736d;
+  --soft:#eefaf3;
+  --border:rgba(0,150,80,.12);
+  --green:#00c86b;
+  --green-dark:#00994f;
+  --shadow:rgba(20,60,40,.10);
+  --header:rgba(255,255,255,.88);
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
 }
 
 body.dark{
---bg:linear-gradient(to right,#020202,#03110a,#062116,#0a2b1d,#123a29);
---card:rgba(255,255,255,.04);
---text:#fff;
---muted:#aab7b0;
---soft:rgba(0,210,111,.08);
---border:rgba(0,210,111,.14);
---green:#00d26f;
---green-dark:#00994f;
---shadow:rgba(0,210,111,.10);
---header:rgba(0,0,0,.72);
+  --bg:linear-gradient(to right,#020202,#03110a,#062116,#0a2b1d,#123a29);
+  --card:rgba(255,255,255,.04);
+  --text:#fff;
+  --muted:#aab7b0;
+  --soft:rgba(0,210,111,.08);
+  --border:rgba(0,210,111,.14);
+  --green:#00d26f;
+  --green-dark:#00994f;
+  --shadow:rgba(0,210,111,.10);
+  --header:rgba(0,0,0,.72);
 }
 
 header{
-min-height:74px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:0 6%;
-background:var(--header);
-border-bottom:1px solid var(--border);
-position:sticky;
-top:0;
-z-index:1000;
-backdrop-filter:blur(14px);
+  min-height:74px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 6%;
+  background:var(--header);
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:1000;
+  backdrop-filter:blur(14px);
+  animation:slideDown .7s ease forwards;
 }
 
-.logo-section{
-display:flex;
-align-items:center;
-gap:12px;
-}
+.logo-section{display:flex;align-items:center;gap:12px;}
 
 .logo-icon{
-width:44px;
-height:44px;
-border-radius:14px;
-background:linear-gradient(135deg,var(--green),var(--green-dark));
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:23px;
-font-weight:900;
+  width:44px;
+  height:44px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--green),var(--green-dark));
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:23px;
+  font-weight:900;
+  box-shadow:0 12px 25px rgba(0,150,80,.18);
 }
 
-.logo-text h1{
-font-size:21px;
-}
+.logo-text h1{font-size:21px;color:var(--text);}
+.logo-text p{font-size:11px;color:var(--muted);margin-top:4px;}
 
-.logo-text p{
-font-size:11px;
-color:var(--muted);
-margin-top:4px;
-}
-
-nav{
-display:flex;
-gap:28px;
-}
+nav{display:flex;gap:28px;}
 
 nav a{
-text-decoration:none;
-color:var(--text);
-font-size:15px;
-font-weight:800;
-position:relative;
+  text-decoration:none;
+  color:var(--text);
+  font-size:15px;
+  font-weight:800;
+  position:relative;
 }
 
 nav a::after{
-content:"";
-position:absolute;
-left:0;
-bottom:-7px;
-width:0;
-height:2px;
-background:var(--green);
-transition:.3s;
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-7px;
+  width:0;
+  height:2px;
+  background:var(--green);
+  transition:.3s;
 }
 
 nav a:hover::after,
-nav a.active::after{
-width:100%;
-}
+nav a.active::after{width:100%;}
 
-nav a:hover,
-nav a.active{
-color:var(--green);
-}
+nav a:hover,.active{color:var(--green);}
 
-.header-actions{
-display:flex;
-align-items:center;
-gap:12px;
-}
+.header-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
 
-.mode-btn,
-.logout-btn,
-.sync-btn{
-padding:11px 18px;
-border-radius:14px;
-border:1px solid var(--border);
-background:var(--card);
-color:var(--text);
-font-size:14px;
-font-weight:900;
-cursor:pointer;
-transition:.3s;
+.mode-btn,.logout-btn,.sync-btn{
+  padding:11px 18px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+  transition:.3s;
 }
 
 .sync-btn{
-background:linear-gradient(135deg,var(--green),var(--green-dark));
-color:white;
+  background:linear-gradient(135deg,var(--green),var(--green-dark));
+  color:white;
 }
+
+.mode-btn:hover,.logout-btn:hover,.sync-btn:hover{
+  transform:translateY(-3px) scale(1.04);
+  box-shadow:0 14px 28px rgba(0,200,107,.18);
+}
+
+.welcome-text{color:var(--green);font-weight:900;font-size:14px;}
 
 .page{
-padding:42px 6% 90px;
+  min-height:100vh;
+  padding:42px 6% 90px;
+  position:relative;
 }
 
-.hero{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:30px;
-padding:34px;
-margin-bottom:28px;
-box-shadow:0 20px 55px var(--shadow);
+.dashboard-shell{
+  display:grid;
+  grid-template-columns:290px 1fr;
+  gap:26px;
 }
 
-.hero h1{
-font-size:46px;
-margin-bottom:10px;
+.profile-panel{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:34px;
+  padding:28px;
+  box-shadow:0 28px 65px var(--shadow);
+  position:sticky;
+  top:98px;
+  animation:fadeUp .8s ease forwards;
 }
 
-.hero span{
-color:var(--green);
+.avatar{
+  width:74px;
+  height:74px;
+  border-radius:24px;
+  background:linear-gradient(135deg,var(--green),var(--green-dark));
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:32px;
+  font-weight:900;
+  margin-bottom:18px;
 }
 
-.hero p{
-color:var(--muted);
-line-height:1.8;
+.profile-panel h2{font-size:26px;margin-bottom:6px;}
+.profile-panel p{color:var(--muted);font-size:14px;word-break:break-all;}
+
+.side-links{
+  margin-top:26px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
 }
 
-.stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:18px;
-margin-bottom:28px;
+.side-links a{
+  text-decoration:none;
+  padding:14px 16px;
+  border-radius:18px;
+  background:var(--soft);
+  color:var(--text);
+  border:1px solid var(--border);
+  font-weight:900;
+  transition:.3s;
 }
 
-.stat{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:24px;
-padding:24px;
-box-shadow:0 20px 48px var(--shadow);
+.side-links a:hover{
+  background:var(--green);
+  color:white;
+  transform:translateX(6px);
 }
 
-.stat small{
-display:block;
-color:var(--muted);
-font-weight:900;
-margin-bottom:10px;
+.main-area{display:flex;flex-direction:column;gap:24px;}
+
+.hero-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:36px;
+  padding:34px;
+  box-shadow:0 30px 70px var(--shadow);
+  animation:fadeUp .8s ease forwards;
 }
 
-.stat strong{
-font-size:32px;
-color:var(--green);
+.hero-card h1{
+  font-size:42px;
+  line-height:1.1;
+  letter-spacing:-1.5px;
+  margin-bottom:12px;
 }
 
-.panel{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:30px;
-padding:28px;
-box-shadow:0 20px 55px var(--shadow);
+.hero-card h1 span{color:var(--green);}
+.hero-card p{color:var(--muted);font-size:16px;line-height:1.7;max-width:700px;}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
 }
 
-.panel h2{
-margin-bottom:22px;
-font-size:28px;
+.stat-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:26px;
+  padding:24px;
+  box-shadow:0 20px 48px var(--shadow);
+  transition:.3s;
+  animation:fadeUp .8s ease forwards;
 }
+
+.stat-card:hover{transform:translateY(-7px);}
+
+.stat-card .label{
+  color:var(--muted);
+  font-size:13px;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.stat-card .value{
+  color:var(--green);
+  font-size:32px;
+  font-weight:900;
+}
+
+.content-grid{
+  display:grid;
+  grid-template-columns:1.35fr .65fr;
+  gap:24px;
+}
+
+.submissions-panel,.mini-panel{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:34px;
+  padding:28px;
+  box-shadow:0 28px 65px var(--shadow);
+  animation:fadeUp .9s ease forwards;
+}
+
+.panel-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  margin-bottom:22px;
+}
+
+.panel-title h3{font-size:28px;}
+.panel-title span{color:var(--green);font-weight:900;}
 
 .submission-list{
-display:flex;
-flex-direction:column;
-gap:18px;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
 }
 
-.submission{
-padding:24px;
-border-radius:24px;
-background:var(--soft);
-border:1px solid var(--border);
+.submission-card{
+  padding:28px;
+  border-radius:28px;
+  background:var(--soft);
+  border:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  transition:.3s;
+  animation:fadeUp .7s ease forwards;
 }
 
-.submission h3{
-margin-bottom:12px;
-font-size:22px;
+.submission-card:hover{transform:translateY(-4px);}
+
+.submission-card h4{
+  font-size:24px;
+  margin-bottom:10px;
 }
 
-.submission p{
-color:var(--muted);
-line-height:1.7;
-word-break:break-all;
+.submission-card p{
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.6;
+  word-break:break-all;
 }
 
-.metrics{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
-margin-top:18px;
+.metric-line{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-top:16px;
 }
 
-.metric{
-padding:18px;
-border-radius:18px;
-background:var(--card);
-border:1px solid var(--border);
+.metric-pill{
+  padding:20px;
+  border-radius:22px;
+  background:var(--card);
+  border:1px solid var(--border);
+  box-shadow:0 14px 30px rgba(0,0,0,.05);
 }
 
-.metric small{
-display:block;
-color:var(--muted);
-margin-bottom:8px;
-font-weight:900;
+.metric-pill small{
+  display:block;
+  color:var(--muted);
+  font-size:14px;
+  font-weight:900;
+  margin-bottom:10px;
 }
 
-.metric strong{
-font-size:28px;
-color:var(--green);
+.metric-pill strong{
+  display:block;
+  color:var(--green);
+  font-size:32px;
+  font-weight:900;
 }
 
-.status{
-margin-top:18px;
-padding:14px;
-border-radius:999px;
-text-align:center;
-font-weight:900;
+.status-pill{
+  width:100%;
+  padding:17px 22px;
+  border-radius:999px;
+  font-size:16px;
+  font-weight:900;
+  text-align:center;
+  letter-spacing:.2px;
+}
+
+.underprocess{
+  color:#ad7600;
+  background:rgba(255,209,102,.18);
+  border:1px solid rgba(255,209,102,.34);
 }
 
 .approved{
-background:rgba(0,210,111,.12);
-color:var(--green);
+  color:var(--green);
+  background:rgba(0,210,111,.12);
+  border:1px solid rgba(0,210,111,.25);
 }
 
 .rejected{
-background:rgba(255,92,92,.12);
-color:#ff5c5c;
+  color:#ff5c5c;
+  background:rgba(255,92,92,.12);
+  border:1px solid rgba(255,92,92,.25);
 }
 
-.pending{
-background:rgba(255,209,102,.18);
-color:#b57a00;
+.empty-box{
+  padding:24px;
+  border-radius:24px;
+  background:var(--soft);
+  border:1px solid var(--border);
+  color:var(--muted);
+  font-weight:800;
+  line-height:1.7;
 }
 
-.empty{
-padding:24px;
-border-radius:22px;
-background:var(--soft);
-border:1px solid var(--border);
-color:var(--muted);
-font-weight:800;
-}
+.right-stack{display:flex;flex-direction:column;gap:24px;}
+
+.mini-panel h3{font-size:24px;margin-bottom:14px;}
+.mini-panel p{color:var(--muted);font-size:15px;line-height:1.7;}
 
 .notice{
-margin-top:20px;
-padding:18px;
-border-radius:20px;
-background:var(--soft);
-border:1px solid var(--border);
-color:var(--muted);
-font-weight:800;
+  margin-top:18px;
+  padding:14px;
+  border-radius:18px;
+  background:var(--soft);
+  border:1px solid var(--border);
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6;
+  font-weight:800;
 }
 
-@media(max-width:900px){
+.progress-wrap{margin-top:20px;}
 
-stats{
-grid-template-columns:1fr 1fr;
+.progress-row{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:8px;
+  color:var(--muted);
+  font-size:14px;
+  font-weight:900;
 }
 
+.progress-bar{
+  height:12px;
+  border-radius:20px;
+  background:var(--soft);
+  border:1px solid var(--border);
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:100%;
+  width:0;
+  background:linear-gradient(135deg,var(--green),var(--green-dark));
+  border-radius:20px;
+  transition:.6s ease;
+}
+
+@keyframes slideDown{
+  from{opacity:0;transform:translateY(-20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(28px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:1050px){
+  header{flex-direction:column;height:auto;padding:18px;gap:16px;}
+  nav{gap:16px;flex-wrap:wrap;justify-content:center;}
+  .dashboard-shell{grid-template-columns:1fr;}
+  .profile-panel{position:relative;top:auto;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .content-grid{grid-template-columns:1fr;}
 }
 
 @media(max-width:650px){
-
-.stats{
-grid-template-columns:1fr;
-}
-
-.hero h1{
-font-size:34px;
-}
-
-header{
-flex-direction:column;
-padding:18px;
-gap:16px;
-}
-
+  .stats-grid{grid-template-columns:1fr;}
+  .metric-line{grid-template-columns:1fr;}
+  .hero-card h1{font-size:34px;}
 }
 </style>
 </head>
@@ -336,402 +440,423 @@ gap:16px;
 <body>
 
 <header>
+  <div class="logo-section">
+    <div class="logo-icon">C</div>
+    <div class="logo-text">
+      <h1>CYRON</h1>
+      <p>Creator Campaign Platform</p>
+    </div>
+  </div>
 
-<div class="logo-section">
-<div class="logo-icon">C</div>
+  <nav>
+    <a href="cyronhomepage.html">Home</a>
+    <a href="cyroncampaign.html">Campaigns</a>
+    <a href="cyronpayments.html">Payments</a>
+    <a href="cyrondashboard.html" class="active">Dashboard</a>
+  </nav>
 
-<div class="logo-text">
-<h1>CYRON</h1>
-<p>Creator Dashboard</p>
-</div>
-</div>
-
-<nav>
-<a href="cyronhomepage.html">Home</a>
-<a href="cyroncampaign.html">Campaigns</a>
-<a href="cyronpayments.html">Payments</a>
-<a href="cyrondashboard.html" class="active">Dashboard</a>
-</nav>
-
-<div class="header-actions">
-<button class="mode-btn" id="modeBtn">Dark Mode</button>
-<button class="sync-btn" id="syncBtn">Sync YouTube Stats</button>
-<button class="logout-btn" id="logoutBtn">Logout</button>
-</div>
-
+  <div class="header-actions">
+    <button class="mode-btn" id="modeBtn" onclick="toggleMode()">Dark Mode</button>
+    <button class="sync-btn" onclick="syncYouTubeStats()">Sync YouTube Stats</button>
+    <span class="welcome-text" id="headerName">Creator</span>
+    <button class="logout-btn" onclick="logoutUser()">Logout</button>
+  </div>
 </header>
 
 <section class="page">
 
-<div class="hero">
-<h1>Track your <span>creator growth.</span></h1>
+  <div class="dashboard-shell">
 
-<p>
-Sync YouTube statistics, monitor approvals,
-and view your estimated campaign earnings.
-</p>
-</div>
+    <aside class="profile-panel">
+      <div class="avatar" id="avatarLetter">C</div>
+      <h2 id="profileName">Creator</h2>
+      <p id="profileEmail">creator@email.com</p>
 
-<div class="stats">
+      <div class="side-links">
+        <a href="cyroncampaign.html">Explore Campaign</a>
+        <a href="cyronpayments.html">Request Payout</a>
+        <a href="cyronpayoutrequests.html">My Payouts</a>
+      </div>
+    </aside>
 
-<div class="stat">
-<small>Total Videos</small>
-<strong id="totalVideos">0</strong>
-</div>
+    <main class="main-area">
 
-<div class="stat">
-<small>Approved</small>
-<strong id="approvedVideos">0</strong>
-</div>
+      <div class="hero-card">
+        <h1>Your content stats, <span>tracked smarter.</span></h1>
+        <p>Sync YouTube views, calculate estimated earnings, and track your campaign status from one clean dashboard.</p>
+      </div>
 
-<div class="stat">
-<small>Total Views</small>
-<strong id="totalViews">0</strong>
-</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="label">Total Submissions</div>
+          <div class="value" id="totalSubmissions">0</div>
+        </div>
 
-<div class="stat">
-<small>Earnings</small>
-<strong id="totalEarnings">$0.00</strong>
-</div>
+        <div class="stat-card">
+          <div class="label">Approved</div>
+          <div class="value" id="approvedCount">0</div>
+        </div>
 
-</div>
+        <div class="stat-card">
+          <div class="label">Total Views</div>
+          <div class="value" id="totalViews">0</div>
+        </div>
 
-<div class="panel">
+        <div class="stat-card">
+          <div class="label">Estimated Earnings</div>
+          <div class="value" id="totalEarnings">$0.00</div>
+        </div>
+      </div>
 
-<h2>Your Submissions</h2>
+      <div class="content-grid">
 
-<div class="submission-list" id="submissionList">
+        <div class="submissions-panel">
+          <div class="panel-title">
+            <h3>Recent Submissions</h3>
+            <span id="submissionLabel">0 items</span>
+          </div>
 
-<div class="empty">
-Loading submissions...
-</div>
+          <div class="submission-list" id="submissionList"></div>
+        </div>
 
-</div>
+        <div class="right-stack">
 
-<div class="notice" id="syncNotice">
-YouTube stats ready to sync.
-</div>
+          <div class="mini-panel">
+            <h3>Approval Progress</h3>
+            <p>Your approval rate is based on approved submissions compared to total submissions.</p>
 
-</div>
+            <div class="progress-wrap">
+              <div class="progress-row">
+                <span>Approved</span>
+                <span id="approvalPercent">0%</span>
+              </div>
+
+              <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mini-panel">
+            <h3>YouTube Tracking</h3>
+            <p>Click the sync button to fetch YouTube view count and calculate earnings automatically.</p>
+
+            <div class="notice" id="syncNotice">
+              Ready to sync YouTube stats.
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
 
 </section>
 
+<script>
+function applyTheme(){
+  let modeBtn = document.getElementById("modeBtn");
+  let savedMode = localStorage.getItem("cyronTheme");
+
+  if(savedMode === "dark"){
+    document.body.classList.add("dark");
+    if(modeBtn) modeBtn.textContent = "Light Mode";
+  } else {
+    document.body.classList.remove("dark");
+    if(modeBtn) modeBtn.textContent = "Dark Mode";
+  }
+}
+
+function toggleMode(){
+  document.body.classList.toggle("dark");
+
+  if(document.body.classList.contains("dark")){
+    localStorage.setItem("cyronTheme","dark");
+  } else {
+    localStorage.setItem("cyronTheme","light");
+  }
+
+  applyTheme();
+}
+
+applyTheme();
+</script>
+
 <script type="module">
+import { auth, db } from "./firebase.js";
 
 import {
-auth,
-db,
-signOut,
-collection,
-getDocs,
-doc,
-updateDoc
-} from "./firebase.js";
-
-import {
-onAuthStateChanged
+  onAuthStateChanged,
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-const API_KEY = "YOUR_YOUTUBE_API_KEY";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  updateDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const PAY_PER_1000 = 0.50;
-const MAX_EARNINGS = 150;
-
-const modeBtn = document.getElementById("modeBtn");
-
-function applyTheme(){
-
-let savedTheme = localStorage.getItem("cyronTheme");
-
-if(savedTheme === "dark"){
-document.body.classList.add("dark");
-modeBtn.textContent = "Light Mode";
-}
-else{
-document.body.classList.remove("dark");
-modeBtn.textContent = "Dark Mode";
-}
-
-}
-
-applyTheme();
-
-modeBtn.addEventListener("click",function(){
-
-document.body.classList.toggle("dark");
-
-if(document.body.classList.contains("dark")){
-localStorage.setItem("cyronTheme","dark");
-}
-else{
-localStorage.setItem("cyronTheme","light");
-}
-
-applyTheme();
-
-});
-
-document.getElementById("logoutBtn")
-.addEventListener("click",async function(){
-
-await signOut(auth);
-
-window.location.href = "cyroncreatorlogin.html";
-
-});
+const YOUTUBE_API_KEY = "AIzaSyCnyZ-KebokgYC9fO-8UZvpqAPjBDu3p18";
+const PAY_PER_1000_VIEWS = 0.50;
+const MAX_EARNING_PER_VIDEO = 150;
 
 let currentUser = null;
+let currentName = "Creator";
 
-onAuthStateChanged(auth,async function(user){
+onAuthStateChanged(auth,function(user){
+  if(!user){
+    window.location.href = "cyroncreatorlogin.html";
+    return;
+  }
 
-if(!user){
-window.location.href = "cyroncreatorlogin.html";
-return;
+  currentUser = user.email;
+  currentName = user.displayName || user.email.split("@")[0];
+
+  document.getElementById("headerName").textContent = currentName;
+  document.getElementById("profileName").textContent = currentName;
+  document.getElementById("profileEmail").textContent = currentUser;
+  document.getElementById("avatarLetter").textContent = currentName.charAt(0).toUpperCase();
+
+  loadDashboard();
+});
+
+function extractYouTubeVideoId(url){
+  if(!url){
+    return null;
+  }
+
+  try{
+    let cleanUrl = url.trim();
+
+    if(cleanUrl.includes("youtu.be/")){
+      return cleanUrl.split("youtu.be/")[1].split("?")[0].split("&")[0].split("/")[0];
+    }
+
+    if(cleanUrl.includes("youtube.com/shorts/")){
+      return cleanUrl.split("youtube.com/shorts/")[1].split("?")[0].split("&")[0].split("/")[0];
+    }
+
+    if(cleanUrl.includes("youtube.com/embed/")){
+      return cleanUrl.split("youtube.com/embed/")[1].split("?")[0].split("&")[0].split("/")[0];
+    }
+
+    if(cleanUrl.includes("youtube.com/watch")){
+      let urlObj = new URL(cleanUrl);
+      return urlObj.searchParams.get("v");
+    }
+
+    return null;
+  } catch(error){
+    return null;
+  }
 }
 
-currentUser = user;
+function calculateEarnings(views){
+  let earnings = (Number(views || 0) / 1000) * PAY_PER_1000_VIEWS;
 
-loadDashboard();
+  if(earnings > MAX_EARNING_PER_VIDEO){
+    earnings = MAX_EARNING_PER_VIDEO;
+  }
 
-});
+  return earnings;
+}
+
+async function fetchYouTubeViews(videoId){
+  let apiUrl =
+    "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=" +
+    encodeURIComponent(videoId) +
+    "&key=" +
+    encodeURIComponent(YOUTUBE_API_KEY);
+
+  let response = await fetch(apiUrl);
+  let data = await response.json();
+
+  console.log("YouTube API response:", data);
+
+  if(!response.ok || data.error){
+    throw new Error(data.error?.message || "YouTube API request failed.");
+  }
+
+  if(!data.items || data.items.length === 0){
+    throw new Error("Video not found. Make sure the video is public.");
+  }
+
+  return Number(data.items[0].statistics.viewCount || 0);
+}
+
+window.syncYouTubeStats = async function(){
+  let notice = document.getElementById("syncNotice");
+
+  if(!currentUser){
+    notice.textContent = "Login required.";
+    return;
+  }
+
+  notice.textContent = "Syncing YouTube views...";
+
+  try{
+    let submissionsQuery = query(
+      collection(db,"submissions"),
+      where("creatorEmail","==",currentUser)
+    );
+
+    let snapshot = await getDocs(submissionsQuery);
+
+    let updatedCount = 0;
+    let failedCount = 0;
+
+    for(const docSnap of snapshot.docs){
+      let item = docSnap.data();
+
+      let videoId = extractYouTubeVideoId(item.link);
+
+      if(!videoId){
+        failedCount++;
+        continue;
+      }
+
+      try{
+        let views = await fetchYouTubeViews(videoId);
+        let earnings = calculateEarnings(views);
+
+        await updateDoc(doc(db,"submissions",docSnap.id),{
+          views:views,
+          earnings:earnings.toFixed(2)
+        });
+
+        updatedCount++;
+      } catch(error){
+        console.error("Sync failed:",error.message);
+        failedCount++;
+      }
+    }
+
+    notice.textContent =
+    "Synced " + updatedCount + " video(s). Failed: " + failedCount + ".";
+
+    loadDashboard();
+
+  } catch(error){
+    console.error(error);
+    notice.textContent = "Sync failed: " + error.message;
+  }
+}
+
+function getStatusClass(status){
+  if(status === "Approved"){
+    return "approved";
+  }
+
+  if(status === "Rejected"){
+    return "rejected";
+  }
+
+  return "underprocess";
+}
 
 async function loadDashboard(){
+  let submissionsQuery = query(
+    collection(db,"submissions"),
+    where("creatorEmail","==",currentUser)
+  );
 
-const submissionsRef = collection(db,"submissions");
+  let snapshot = await getDocs(submissionsQuery);
 
-const snapshot = await getDocs(submissionsRef);
+  let mySubmissions = [];
 
-let submissions = [];
+  snapshot.forEach(function(docSnap){
+    mySubmissions.push({
+      id:docSnap.id,
+      ...docSnap.data()
+    });
+  });
 
-snapshot.forEach(function(docSnap){
+  let approved = mySubmissions.filter(function(item){
+    return item.status === "Approved";
+  });
 
-let data = docSnap.data();
+  let totalViews = 0;
+  let totalEarnings = 0;
 
-if(data.creatorEmail === currentUser.email){
+  mySubmissions.forEach(function(item){
+    totalViews += Number(item.views || 0);
+    totalEarnings += Number(item.earnings || 0);
+  });
 
-submissions.push({
-id:docSnap.id,
-...data
-});
+  document.getElementById("totalSubmissions").textContent = mySubmissions.length;
+  document.getElementById("approvedCount").textContent = approved.length;
+  document.getElementById("totalViews").textContent = totalViews.toLocaleString();
+  document.getElementById("totalEarnings").textContent = "$" + totalEarnings.toFixed(2);
+  document.getElementById("submissionLabel").textContent = mySubmissions.length + " items";
 
+  let percent = 0;
+
+  if(mySubmissions.length > 0){
+    percent = Math.round((approved.length / mySubmissions.length) * 100);
+  }
+
+  document.getElementById("approvalPercent").textContent = percent + "%";
+  document.getElementById("progressFill").style.width = percent + "%";
+
+  let list = document.getElementById("submissionList");
+  list.innerHTML = "";
+
+  if(mySubmissions.length === 0){
+    list.innerHTML = `
+      <div class="empty-box">
+        No submissions yet. Go to the Campaigns page and submit your first Starpets Sponsor content link.
+      </div>
+    `;
+    return;
+  }
+
+  mySubmissions.reverse().forEach(function(item,index){
+    let status = item.status || "Under Process";
+    let statusClass = getStatusClass(status);
+
+    let card = document.createElement("div");
+    card.className = "submission-card";
+    card.style.animationDelay = `${index * 0.08}s`;
+
+    card.innerHTML = `
+      <div>
+        <h4>${item.campaign || "Starpets Sponsor"}</h4>
+
+        <p><strong>Platform:</strong> ${item.platform || "YouTube Shorts"}</p>
+        <p><strong>Link:</strong> ${item.link || "No link"}</p>
+
+        <div class="metric-line">
+          <div class="metric-pill">
+            <small>Views</small>
+            <strong>${Number(item.views || 0).toLocaleString()}</strong>
+          </div>
+
+          <div class="metric-pill">
+            <small>Earnings</small>
+            <strong>$${Number(item.earnings || 0).toFixed(2)}</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-pill ${statusClass}">
+        ${status}
+      </div>
+    `;
+
+    list.appendChild(card);
+  });
 }
 
-});
-
-renderDashboard(submissions);
-
+window.logoutUser = async function(){
+  await signOut(auth);
+  window.location.href = "cyroncreatorlogin.html";
 }
-
-function renderDashboard(submissions){
-
-let approved = 0;
-let totalViews = 0;
-let totalEarnings = 0;
-
-submissions.forEach(function(item){
-
-if(item.status === "Approved"){
-approved++;
-}
-
-totalViews += Number(item.views || 0);
-totalEarnings += Number(item.earnings || 0);
-
-});
-
-document.getElementById("totalVideos").textContent =
-submissions.length;
-
-document.getElementById("approvedVideos").textContent =
-approved;
-
-document.getElementById("totalViews").textContent =
-totalViews.toLocaleString();
-
-document.getElementById("totalEarnings").textContent =
-"$" + totalEarnings.toFixed(2);
-
-let list = document.getElementById("submissionList");
-
-list.innerHTML = "";
-
-if(submissions.length === 0){
-
-list.innerHTML = `
-<div class="empty">
-No submissions found.
-</div>
-`;
-
-return;
-
-}
-
-submissions.reverse().forEach(function(item){
-
-let statusClass = "pending";
-
-if(item.status === "Approved"){
-statusClass = "approved";
-}
-
-if(item.status === "Rejected"){
-statusClass = "rejected";
-}
-
-let card = document.createElement("div");
-
-card.className = "submission";
-
-card.innerHTML = `
-
-<h3>${item.campaign || "Campaign"}</h3>
-
-<p><strong>Platform:</strong> ${item.platform}</p>
-
-<p><strong>Video Link:</strong> ${item.link}</p>
-
-<div class="metrics">
-
-<div class="metric">
-<small>Views</small>
-<strong>${Number(item.views || 0).toLocaleString()}</strong>
-</div>
-
-<div class="metric">
-<small>Earnings</small>
-<strong>$${Number(item.earnings || 0).toFixed(2)}</strong>
-</div>
-
-</div>
-
-<div class="status ${statusClass}">
-${item.status || "Under Process"}
-</div>
-
-`;
-
-list.appendChild(card);
-
-});
-
-}
-
-function extractVideoId(url){
-
-try{
-
-if(url.includes("youtu.be/")){
-return url.split("youtu.be/")[1].split("?")[0];
-}
-
-if(url.includes("/shorts/")){
-return url.split("/shorts/")[1].split("?")[0];
-}
-
-if(url.includes("watch?v=")){
-let parsed = new URL(url);
-return parsed.searchParams.get("v");
-}
-
-return null;
-
-}
-catch{
-return null;
-}
-
-}
-
-async function fetchViews(videoId){
-
-const response = await fetch(
-`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${API_KEY}`
-);
-
-const data = await response.json();
-
-if(!data.items || !data.items.length){
-throw new Error("Video not found");
-}
-
-return Number(data.items[0].statistics.viewCount || 0);
-
-}
-
-document.getElementById("syncBtn")
-.addEventListener("click",async function(){
-
-const notice = document.getElementById("syncNotice");
-
-notice.textContent = "Syncing YouTube stats...";
-
-try{
-
-const submissionsRef = collection(db,"submissions");
-
-const snapshot = await getDocs(submissionsRef);
-
-let updated = 0;
-
-for(const item of snapshot.docs){
-
-let data = item.data();
-
-if(data.creatorEmail !== currentUser.email){
-continue;
-}
-
-let videoId = extractVideoId(data.link);
-
-if(!videoId){
-continue;
-}
-
-try{
-
-let views = await fetchViews(videoId);
-
-let earnings = (views / 1000) * PAY_PER_1000;
-
-if(earnings > MAX_EARNINGS){
-earnings = MAX_EARNINGS;
-}
-
-await updateDoc(
-doc(db,"submissions",item.id),
-{
-views:views,
-earnings:Number(earnings.toFixed(2))
-}
-);
-
-updated++;
-
-}
-catch(error){
-console.log(error);
-}
-
-}
-
-notice.textContent =
-"Successfully synced " + updated + " videos.";
-
-loadDashboard();
-
-}
-catch(error){
-
-console.log(error);
-
-notice.textContent =
-"Sync failed. Check API key.";
-
-}
-
-});
-
 </script>
 
 </body>
