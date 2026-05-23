@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyron Admin Payouts</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+--bg:#f7fbf8;
+--card:#fff;
+--text:#101513;
+--muted:#65726c;
+--soft:#f0faf4;
+--border:rgba(0,150,80,.10);
+--green:#00c86b;
+--green-dark:#00994f;
+--shadow:rgba(20,60,40,.10);
+background:var(--bg);
+color:var(--text);
+padding:40px;
+}
+
+body.dark{
+--bg:#02110a;
+--card:rgba(255,255,255,.04);
+--text:#fff;
+--muted:#aab7b0;
+--soft:rgba(0,210,111,.08);
+--border:rgba(0,210,111,.14);
+}
+
+.panel{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:30px;
+padding:30px;
+box-shadow:0 25px 60px var(--shadow);
+}
+
+h1{
+font-size:42px;
+margin-bottom:25px;
+}
+
+.payout-list{
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+.payout-card{
+padding:24px;
+border-radius:24px;
+background:var(--soft);
+border:1px solid var(--border);
+display:grid;
+grid-template-columns:1fr auto;
+gap:20px;
+}
+
+.payout-card h3{
+font-size:24px;
+margin-bottom:10px;
+}
+
+.payout-card p{
+color:var(--muted);
+line-height:1.7;
+}
+
+.actions{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+button{
+padding:12px 16px;
+border:none;
+border-radius:14px;
+cursor:pointer;
+font-weight:900;
+}
+
+.approve{
+background:#00c86b;
+color:white;
+}
+
+.reject{
+background:#ffcc66;
+}
+
+.paid{
+background:#4d8dff;
+color:white;
+}
+
+.hide{
+background:#ff6666;
+color:white;
+}
+
+.status{
+padding:12px 16px;
+border-radius:999px;
+font-weight:900;
+text-align:center;
+margin-bottom:12px;
+background:rgba(0,210,111,.12);
+}
+
+.empty{
+padding:24px;
+border-radius:20px;
+background:var(--soft);
+border:1px solid var(--border);
+}
+</style>
+</head>
+
+<body>
+
+<div class="panel">
+
+<h1>Admin Payout Requests</h1>
+
+<div class="payout-list" id="payoutList"></div>
+
+</div>
+
+<script type="module">
+import { auth, db } from "./firebase.js";
+
+import {
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+collection,
+getDocs,
+doc,
+updateDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const ADMIN_EMAILS = [
+"gifegirrafe@gmail.com"
+];
+
+onAuthStateChanged(auth,function(user){
+
+if(!user){
+window.location.href = "cyroncreatorlogin.html";
+return;
+}
+
+if(!ADMIN_EMAILS.includes(user.email)){
+alert("Admin access only.");
+window.location.href = "index.html";
+return;
+}
+
+loadPayouts();
+
+});
+
+async function loadPayouts(){
+
+let payouts = [];
+
+let snap =
+await getDocs(collection(db,"payoutRequests"));
+
+snap.forEach(function(docSnap){
+
+let data = docSnap.data();
+
+if(data.hidden === true){
+return;
+}
+
+payouts.push({
+id:docSnap.id,
+...data
+});
+
+});
+
+showPayouts(payouts);
+
+}
+
+function showPayouts(payouts){
+
+let list =
+document.getElementById("payoutList");
+
+list.innerHTML = "";
+
+if(payouts.length === 0){
+
+list.innerHTML = `
+<div class="empty">
+No payout requests found.
+</div>
+`;
+
+return;
+}
+
+payouts.reverse().forEach(function(request){
+
+let videosHTML = "";
+
+if(request.videos){
+
+request.videos.forEach(function(video,index){
+
+videosHTML += `
+<p>
+<strong>Video ${index + 1}:</strong>
+${video.link}
+</p>
+`;
+
+});
+
+}
+
+let card =
+document.createElement("div");
+
+card.className =
+"payout-card";
+
+card.innerHTML = `
+<div>
+
+<h3>${request.creatorName || "Creator"}</h3>
+
+<p><strong>Email:</strong> ${request.creatorEmail}</p>
+
+<p><strong>Method:</strong> ${request.method}</p>
+
+<p><strong>Address:</strong> ${request.address}</p>
+
+<p><strong>Amount:</strong> $${Number(request.amount || 0).toFixed(2)}</p>
+
+<p><strong>Date:</strong> ${request.date}</p>
+
+<br>
+
+${videosHTML}
+
+</div>
+
+<div>
+
+<div class="status">
+${request.status || "Pending"}
+</div>
+
+<div class="actions">
+
+<button class="approve"
+onclick="approvePayout('${request.id}')">
+Approve
+</button>
+
+<button class="paid"
+onclick="markPaid('${request.id}')">
+Mark Paid
+</button>
+
+<button class="reject"
+onclick="rejectPayout('${request.id}')">
+Reject
+</button>
+
+<button class="hide"
+onclick="hidePayout('${request.id}')">
+Hide
+</button>
+
+</div>
+
+</div>
+`;
+
+list.appendChild(card);
+
+});
+
+}
+
+window.approvePayout = async function(id){
+
+await updateDoc(
+doc(db,"payoutRequests",id),
+{
+status:"Approved"
+}
+);
+
+loadPayouts();
+
+}
+
+window.markPaid = async function(id){
+
+await updateDoc(
+doc(db,"payoutRequests",id),
+{
+status:"Paid"
+}
+);
+
+loadPayouts();
+
+}
+
+window.rejectPayout = async function(id){
+
+await updateDoc(
+doc(db,"payoutRequests",id),
+{
+status:"Rejected"
+}
+);
+
+loadPayouts();
+
+}
+
+window.hidePayout = async function(id){
+
+await updateDoc(
+doc(db,"payoutRequests",id),
+{
+hidden:true
+}
+);
+
+loadPayouts();
+
+}
+</script>
+
+</body>
+</html>
