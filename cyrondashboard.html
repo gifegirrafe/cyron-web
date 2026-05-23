@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Cyron Dashboard</title>
 
 <style>
@@ -20,6 +22,7 @@ body{
   --green-dark:#00994f;
   --shadow:rgba(20,60,40,.10);
   --header:rgba(255,255,255,.88);
+
   background:var(--bg);
   color:var(--text);
   overflow-x:hidden;
@@ -53,7 +56,11 @@ header{
   animation:slideDown .7s ease forwards;
 }
 
-.logo-section{display:flex;align-items:center;gap:12px;}
+.logo-section{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 
 .logo-icon{
   width:44px;
@@ -69,10 +76,21 @@ header{
   box-shadow:0 12px 25px rgba(0,150,80,.18);
 }
 
-.logo-text h1{font-size:21px;color:var(--text);}
-.logo-text p{font-size:11px;color:var(--muted);margin-top:4px;}
+.logo-text h1{
+  font-size:21px;
+  color:var(--text);
+}
 
-nav{display:flex;gap:28px;}
+.logo-text p{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+nav{
+  display:flex;
+  gap:28px;
+}
 
 nav a{
   text-decoration:none;
@@ -94,13 +112,24 @@ nav a::after{
 }
 
 nav a:hover::after,
-nav a.active::after{width:100%;}
+nav a.active::after{
+  width:100%;
+}
 
-nav a:hover,.active{color:var(--green);}
+nav a:hover,
+nav a.active{
+  color:var(--green);
+}
 
-.header-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
 
-.mode-btn,.logout-btn,.sync-btn{
+.mode-btn,
+.logout-btn{
   padding:11px 18px;
   border-radius:14px;
   border:1px solid var(--border);
@@ -112,17 +141,17 @@ nav a:hover,.active{color:var(--green);}
   transition:.3s;
 }
 
-.sync-btn{
-  background:linear-gradient(135deg,var(--green),var(--green-dark));
-  color:white;
-}
-
-.mode-btn:hover,.logout-btn:hover,.sync-btn:hover{
+.mode-btn:hover,
+.logout-btn:hover{
   transform:translateY(-3px) scale(1.04);
   box-shadow:0 14px 28px rgba(0,200,107,.18);
 }
 
-.welcome-text{color:var(--green);font-weight:900;font-size:14px;}
+.welcome-text{
+  color:var(--green);
+  font-weight:900;
+  font-size:14px;
+}
 
 .page{
   min-height:100vh;
@@ -161,8 +190,16 @@ nav a:hover,.active{color:var(--green);}
   margin-bottom:18px;
 }
 
-.profile-panel h2{font-size:26px;margin-bottom:6px;}
-.profile-panel p{color:var(--muted);font-size:14px;word-break:break-all;}
+.profile-panel h2{
+  font-size:26px;
+  margin-bottom:6px;
+}
+
+.profile-panel p{
+  color:var(--muted);
+  font-size:14px;
+  word-break:break-all;
+}
 
 .side-links{
   margin-top:26px;
@@ -188,7 +225,11 @@ nav a:hover,.active{color:var(--green);}
   transform:translateX(6px);
 }
 
-.main-area{display:flex;flex-direction:column;gap:24px;}
+.main-area{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
 
 .hero-card{
   background:var(--card);
@@ -206,8 +247,16 @@ nav a:hover,.active{color:var(--green);}
   margin-bottom:12px;
 }
 
-.hero-card h1 span{color:var(--green);}
-.hero-card p{color:var(--muted);font-size:16px;line-height:1.7;max-width:700px;}
+.hero-card h1 span{
+  color:var(--green);
+}
+
+.hero-card p{
+  color:var(--muted);
+  font-size:16px;
+  line-height:1.7;
+  max-width:700px;
+}
 
 .stats-grid{
   display:grid;
@@ -225,7 +274,9 @@ nav a:hover,.active{color:var(--green);}
   animation:fadeUp .8s ease forwards;
 }
 
-.stat-card:hover{transform:translateY(-7px);}
+.stat-card:hover{
+  transform:translateY(-7px);
+}
 
 .stat-card .label{
   color:var(--muted);
@@ -246,7 +297,8 @@ nav a:hover,.active{color:var(--green);}
   gap:24px;
 }
 
-.submissions-panel,.mini-panel{
+.submissions-panel,
+.mini-panel{
   background:var(--card);
   border:1px solid var(--border);
   border-radius:34px;
@@ -263,8 +315,14 @@ nav a:hover,.active{color:var(--green);}
   margin-bottom:22px;
 }
 
-.panel-title h3{font-size:28px;}
-.panel-title span{color:var(--green);font-weight:900;}
+.panel-title h3{
+  font-size:28px;
+}
+
+.panel-title span{
+  color:var(--green);
+  font-weight:900;
+}
 
 .submission-list{
   display:flex;
@@ -284,7 +342,9 @@ nav a:hover,.active{color:var(--green);}
   animation:fadeUp .7s ease forwards;
 }
 
-.submission-card:hover{transform:translateY(-4px);}
+.submission-card:hover{
+  transform:translateY(-4px);
+}
 
 .submission-card h4{
   font-size:24px;
@@ -366,10 +426,22 @@ nav a:hover,.active{color:var(--green);}
   line-height:1.7;
 }
 
-.right-stack{display:flex;flex-direction:column;gap:24px;}
+.right-stack{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
 
-.mini-panel h3{font-size:24px;margin-bottom:14px;}
-.mini-panel p{color:var(--muted);font-size:15px;line-height:1.7;}
+.mini-panel h3{
+  font-size:24px;
+  margin-bottom:14px;
+}
+
+.mini-panel p{
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.7;
+}
 
 .notice{
   margin-top:18px;
@@ -383,7 +455,9 @@ nav a:hover,.active{color:var(--green);}
   font-weight:800;
 }
 
-.progress-wrap{margin-top:20px;}
+.progress-wrap{
+  margin-top:20px;
+}
 
 .progress-row{
   display:flex;
@@ -411,28 +485,73 @@ nav a:hover,.active{color:var(--green);}
 }
 
 @keyframes slideDown{
-  from{opacity:0;transform:translateY(-20px);}
-  to{opacity:1;transform:translateY(0);}
+  from{
+    opacity:0;
+    transform:translateY(-20px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
 
 @keyframes fadeUp{
-  from{opacity:0;transform:translateY(28px);}
-  to{opacity:1;transform:translateY(0);}
+  from{
+    opacity:0;
+    transform:translateY(28px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
 
 @media(max-width:1050px){
-  header{flex-direction:column;height:auto;padding:18px;gap:16px;}
-  nav{gap:16px;flex-wrap:wrap;justify-content:center;}
-  .dashboard-shell{grid-template-columns:1fr;}
-  .profile-panel{position:relative;top:auto;}
-  .stats-grid{grid-template-columns:1fr 1fr;}
-  .content-grid{grid-template-columns:1fr;}
+  header{
+    flex-direction:column;
+    height:auto;
+    padding:18px;
+    gap:16px;
+  }
+
+  nav{
+    gap:16px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  .dashboard-shell{
+    grid-template-columns:1fr;
+  }
+
+  .profile-panel{
+    position:relative;
+    top:auto;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .content-grid{
+    grid-template-columns:1fr;
+  }
 }
 
 @media(max-width:650px){
-  .stats-grid{grid-template-columns:1fr;}
-  .metric-line{grid-template-columns:1fr;}
-  .hero-card h1{font-size:34px;}
+  .stats-grid{
+    grid-template-columns:1fr;
+  }
+
+  .metric-line{
+    grid-template-columns:1fr;
+  }
+
+  .hero-card h1{
+    font-size:34px;
+  }
 }
 </style>
 </head>
@@ -442,6 +561,7 @@ nav a:hover,.active{color:var(--green);}
 <header>
   <div class="logo-section">
     <div class="logo-icon">C</div>
+
     <div class="logo-text">
       <h1>CYRON</h1>
       <p>Creator Campaign Platform</p>
@@ -449,7 +569,7 @@ nav a:hover,.active{color:var(--green);}
   </div>
 
   <nav>
-    <a href="index.html">Home</a>
+    <a href="cyronhomepage.html">Home</a>
     <a href="cyroncampaign.html">Campaigns</a>
     <a href="cyronpayments.html">Payments</a>
     <a href="cyrondashboard.html" class="active">Dashboard</a>
@@ -457,7 +577,6 @@ nav a:hover,.active{color:var(--green);}
 
   <div class="header-actions">
     <button class="mode-btn" id="modeBtn" onclick="toggleMode()">Dark Mode</button>
-    <button class="sync-btn" onclick="syncYouTubeStats()">Sync YouTube Stats</button>
     <span class="welcome-text" id="headerName">Creator</span>
     <button class="logout-btn" onclick="logoutUser()">Logout</button>
   </div>
@@ -469,7 +588,9 @@ nav a:hover,.active{color:var(--green);}
 
     <aside class="profile-panel">
       <div class="avatar" id="avatarLetter">C</div>
+
       <h2 id="profileName">Creator</h2>
+
       <p id="profileEmail">creator@email.com</p>
 
       <div class="side-links">
@@ -482,11 +603,16 @@ nav a:hover,.active{color:var(--green);}
     <main class="main-area">
 
       <div class="hero-card">
-        <h1>Your content stats, <span>tracked smarter.</span></h1>
-        <p>Sync YouTube views, calculate estimated earnings, and track your campaign status from one clean dashboard.</p>
+        <h1>Your content stats, <span>tracked automatically.</span></h1>
+
+        <p>
+          YouTube views are updated automatically when you open this dashboard.
+          Earnings are calculated from verified views and saved to Firebase.
+        </p>
       </div>
 
       <div class="stats-grid">
+
         <div class="stat-card">
           <div class="label">Total Submissions</div>
           <div class="value" id="totalSubmissions">0</div>
@@ -506,26 +632,33 @@ nav a:hover,.active{color:var(--green);}
           <div class="label">Estimated Earnings</div>
           <div class="value" id="totalEarnings">$0.00</div>
         </div>
+
       </div>
 
       <div class="content-grid">
 
         <div class="submissions-panel">
+
           <div class="panel-title">
             <h3>Recent Submissions</h3>
             <span id="submissionLabel">0 items</span>
           </div>
 
           <div class="submission-list" id="submissionList"></div>
+
         </div>
 
         <div class="right-stack">
 
           <div class="mini-panel">
             <h3>Approval Progress</h3>
-            <p>Your approval rate is based on approved submissions compared to total submissions.</p>
+
+            <p>
+              Your approval rate is based on approved submissions compared to total submissions.
+            </p>
 
             <div class="progress-wrap">
+
               <div class="progress-row">
                 <span>Approved</span>
                 <span id="approvalPercent">0%</span>
@@ -534,15 +667,19 @@ nav a:hover,.active{color:var(--green);}
               <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
               </div>
+
             </div>
           </div>
 
           <div class="mini-panel">
             <h3>YouTube Tracking</h3>
-            <p>Click the sync button to fetch YouTube view count and calculate earnings automatically.</p>
+
+            <p>
+              Views update automatically when the dashboard loads.
+            </p>
 
             <div class="notice" id="syncNotice">
-              Ready to sync YouTube stats.
+              Checking YouTube views automatically...
             </div>
           </div>
 
@@ -563,10 +700,17 @@ function applyTheme(){
 
   if(savedMode === "dark"){
     document.body.classList.add("dark");
-    if(modeBtn) modeBtn.textContent = "Light Mode";
+
+    if(modeBtn){
+      modeBtn.textContent = "Light Mode";
+    }
+
   } else {
     document.body.classList.remove("dark");
-    if(modeBtn) modeBtn.textContent = "Dark Mode";
+
+    if(modeBtn){
+      modeBtn.textContent = "Dark Mode";
+    }
   }
 }
 
@@ -609,7 +753,8 @@ const MAX_EARNING_PER_VIDEO = 150;
 let currentUser = null;
 let currentName = "Creator";
 
-onAuthStateChanged(auth,function(user){
+onAuthStateChanged(auth,async function(user){
+
   if(!user){
     window.location.href = "cyroncreatorlogin.html";
     return;
@@ -621,29 +766,47 @@ onAuthStateChanged(auth,function(user){
   document.getElementById("headerName").textContent = currentName;
   document.getElementById("profileName").textContent = currentName;
   document.getElementById("profileEmail").textContent = currentUser;
-  document.getElementById("avatarLetter").textContent = currentName.charAt(0).toUpperCase();
+  document.getElementById("avatarLetter").textContent =
+  currentName.charAt(0).toUpperCase();
 
-  loadDashboard();
+  await autoSyncYouTubeStats();
+
+  await loadDashboard();
+
 });
 
 function extractYouTubeVideoId(url){
+
   if(!url){
     return null;
   }
 
   try{
+
     let cleanUrl = url.trim();
 
     if(cleanUrl.includes("youtu.be/")){
-      return cleanUrl.split("youtu.be/")[1].split("?")[0].split("&")[0].split("/")[0];
+      return cleanUrl
+      .split("youtu.be/")[1]
+      .split("?")[0]
+      .split("&")[0]
+      .split("/")[0];
     }
 
     if(cleanUrl.includes("youtube.com/shorts/")){
-      return cleanUrl.split("youtube.com/shorts/")[1].split("?")[0].split("&")[0].split("/")[0];
+      return cleanUrl
+      .split("youtube.com/shorts/")[1]
+      .split("?")[0]
+      .split("&")[0]
+      .split("/")[0];
     }
 
     if(cleanUrl.includes("youtube.com/embed/")){
-      return cleanUrl.split("youtube.com/embed/")[1].split("?")[0].split("&")[0].split("/")[0];
+      return cleanUrl
+      .split("youtube.com/embed/")[1]
+      .split("?")[0]
+      .split("&")[0]
+      .split("/")[0];
     }
 
     if(cleanUrl.includes("youtube.com/watch")){
@@ -652,13 +815,18 @@ function extractYouTubeVideoId(url){
     }
 
     return null;
+
   } catch(error){
+
     return null;
+
   }
 }
 
 function calculateEarnings(views){
-  let earnings = (Number(views || 0) / 1000) * PAY_PER_1000_VIEWS;
+
+  let earnings =
+  (Number(views || 0) / 1000) * PAY_PER_1000_VIEWS;
 
   if(earnings > MAX_EARNING_PER_VIDEO){
     earnings = MAX_EARNING_PER_VIDEO;
@@ -668,53 +836,57 @@ function calculateEarnings(views){
 }
 
 async function fetchYouTubeViews(videoId){
+
   let apiUrl =
-    "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=" +
-    encodeURIComponent(videoId) +
-    "&key=" +
-    encodeURIComponent(YOUTUBE_API_KEY);
+  "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=" +
+  encodeURIComponent(videoId) +
+  "&key=" +
+  encodeURIComponent(YOUTUBE_API_KEY);
 
   let response = await fetch(apiUrl);
-  let data = await response.json();
 
-  console.log("YouTube API response:", data);
+  let data = await response.json();
 
   if(!response.ok || data.error){
     throw new Error(data.error?.message || "YouTube API request failed.");
   }
 
   if(!data.items || data.items.length === 0){
-    throw new Error("Video not found. Make sure the video is public.");
+    throw new Error("Video not found or not public.");
   }
 
   return Number(data.items[0].statistics.viewCount || 0);
 }
 
-window.syncYouTubeStats = async function(){
-  let notice = document.getElementById("syncNotice");
+async function autoSyncYouTubeStats(){
 
-  if(!currentUser){
-    notice.textContent = "Login required.";
-    return;
-  }
+  let notice =
+  document.getElementById("syncNotice");
 
-  notice.textContent = "Syncing YouTube views...";
+  notice.textContent =
+  "Checking YouTube views automatically...";
 
   try{
-    let submissionsQuery = query(
+
+    let submissionsQuery =
+    query(
       collection(db,"submissions"),
       where("creatorEmail","==",currentUser)
     );
 
-    let snapshot = await getDocs(submissionsQuery);
+    let snapshot =
+    await getDocs(submissionsQuery);
 
     let updatedCount = 0;
     let failedCount = 0;
 
     for(const docSnap of snapshot.docs){
-      let item = docSnap.data();
 
-      let videoId = extractYouTubeVideoId(item.link);
+      let item =
+      docSnap.data();
+
+      let videoId =
+      extractYouTubeVideoId(item.link);
 
       if(!videoId){
         failedCount++;
@@ -722,33 +894,46 @@ window.syncYouTubeStats = async function(){
       }
 
       try{
-        let views = await fetchYouTubeViews(videoId);
-        let earnings = calculateEarnings(views);
 
-        await updateDoc(doc(db,"submissions",docSnap.id),{
-          views:views,
-          earnings:earnings.toFixed(2)
-        });
+        let views =
+        await fetchYouTubeViews(videoId);
+
+        let earnings =
+        calculateEarnings(views);
+
+        await updateDoc(
+          doc(db,"submissions",docSnap.id),
+          {
+            views:views,
+            earnings:earnings.toFixed(2)
+          }
+        );
 
         updatedCount++;
+
       } catch(error){
-        console.error("Sync failed:",error.message);
+
+        console.log("Auto sync failed:",error.message);
         failedCount++;
+
       }
     }
 
     notice.textContent =
-    "Synced " + updatedCount + " video(s). Failed: " + failedCount + ".";
-
-    loadDashboard();
+    "Auto updated " + updatedCount + " video(s). Failed: " + failedCount + ".";
 
   } catch(error){
-    console.error(error);
-    notice.textContent = "Sync failed: " + error.message;
+
+    console.log(error);
+
+    notice.textContent =
+    "Auto update failed. Check YouTube API key or Firebase permissions.";
+
   }
 }
 
 function getStatusClass(status){
+
   if(status === "Approved"){
     return "approved";
   }
@@ -761,23 +946,29 @@ function getStatusClass(status){
 }
 
 async function loadDashboard(){
-  let submissionsQuery = query(
+
+  let submissionsQuery =
+  query(
     collection(db,"submissions"),
     where("creatorEmail","==",currentUser)
   );
 
-  let snapshot = await getDocs(submissionsQuery);
+  let snapshot =
+  await getDocs(submissionsQuery);
 
   let mySubmissions = [];
 
   snapshot.forEach(function(docSnap){
+
     mySubmissions.push({
       id:docSnap.id,
       ...docSnap.data()
     });
+
   });
 
-  let approved = mySubmissions.filter(function(item){
+  let approved =
+  mySubmissions.filter(function(item){
     return item.status === "Approved";
   });
 
@@ -785,53 +976,86 @@ async function loadDashboard(){
   let totalEarnings = 0;
 
   mySubmissions.forEach(function(item){
-    totalViews += Number(item.views || 0);
-    totalEarnings += Number(item.earnings || 0);
+
+    totalViews +=
+    Number(item.views || 0);
+
+    totalEarnings +=
+    Number(item.earnings || 0);
+
   });
 
-  document.getElementById("totalSubmissions").textContent = mySubmissions.length;
-  document.getElementById("approvedCount").textContent = approved.length;
-  document.getElementById("totalViews").textContent = totalViews.toLocaleString();
-  document.getElementById("totalEarnings").textContent = "$" + totalEarnings.toFixed(2);
-  document.getElementById("submissionLabel").textContent = mySubmissions.length + " items";
+  document.getElementById("totalSubmissions").textContent =
+  mySubmissions.length;
+
+  document.getElementById("approvedCount").textContent =
+  approved.length;
+
+  document.getElementById("totalViews").textContent =
+  totalViews.toLocaleString();
+
+  document.getElementById("totalEarnings").textContent =
+  "$" + totalEarnings.toFixed(2);
+
+  document.getElementById("submissionLabel").textContent =
+  mySubmissions.length + " items";
 
   let percent = 0;
 
   if(mySubmissions.length > 0){
-    percent = Math.round((approved.length / mySubmissions.length) * 100);
+    percent =
+    Math.round((approved.length / mySubmissions.length) * 100);
   }
 
-  document.getElementById("approvalPercent").textContent = percent + "%";
-  document.getElementById("progressFill").style.width = percent + "%";
+  document.getElementById("approvalPercent").textContent =
+  percent + "%";
 
-  let list = document.getElementById("submissionList");
+  document.getElementById("progressFill").style.width =
+  percent + "%";
+
+  let list =
+  document.getElementById("submissionList");
+
   list.innerHTML = "";
 
   if(mySubmissions.length === 0){
+
     list.innerHTML = `
       <div class="empty-box">
         No submissions yet. Go to the Campaigns page and submit your first Starpets Sponsor content link.
       </div>
     `;
+
     return;
   }
 
   mySubmissions.reverse().forEach(function(item,index){
-    let status = item.status || "Under Process";
-    let statusClass = getStatusClass(status);
 
-    let card = document.createElement("div");
-    card.className = "submission-card";
-    card.style.animationDelay = `${index * 0.08}s`;
+    let status =
+    item.status || "Under Process";
+
+    let statusClass =
+    getStatusClass(status);
+
+    let card =
+    document.createElement("div");
+
+    card.className =
+    "submission-card";
+
+    card.style.animationDelay =
+    `${index * 0.08}s`;
 
     card.innerHTML = `
       <div>
         <h4>${item.campaign || "Starpets Sponsor"}</h4>
 
         <p><strong>Platform:</strong> ${item.platform || "YouTube Shorts"}</p>
+
         <p><strong>Link:</strong> ${item.link || "No link"}</p>
 
         <div class="metric-line">
+
           <div class="metric-pill">
             <small>Views</small>
             <strong>${Number(item.views || 0).toLocaleString()}</strong>
@@ -841,6 +1065,7 @@ async function loadDashboard(){
             <small>Earnings</small>
             <strong>$${Number(item.earnings || 0).toFixed(2)}</strong>
           </div>
+
         </div>
       </div>
 
@@ -850,12 +1075,16 @@ async function loadDashboard(){
     `;
 
     list.appendChild(card);
+
   });
 }
 
 window.logoutUser = async function(){
+
   await signOut(auth);
-  window.location.href = "cyroncreatorlogin.html";
+
+  window.location.href =
+  "cyroncreatorlogin.html";
 }
 </script>
 
