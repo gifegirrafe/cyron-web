@@ -1,3 +1,8 @@
+<!-- IMPORTANT:
+Inside this file, change ADMIN_EMAILS if needed:
+const ADMIN_EMAILS = ["pmitu.prasad@gmail.com"];
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,195 +15,229 @@
 html{scroll-behavior:smooth;}
 
 body{
-  --bg:#f7fbf8;--card:#fff;--text:#101513;--muted:#65726c;
-  --soft:#f0faf4;--border:rgba(0,150,80,.10);
-  --green:#00c86b;--green-dark:#00994f;
-  --shadow:rgba(20,60,40,.10);--header:rgba(255,255,255,.86);
-  background:var(--bg);color:var(--text);overflow-x:hidden;
+--bg:#f7fbf8;--card:#fff;--text:#101513;--muted:#65726c;
+--soft:#f0faf4;--border:rgba(0,150,80,.10);
+--green:#00c86b;--green-dark:#00994f;
+--shadow:rgba(20,60,40,.10);--header:rgba(255,255,255,.86);
+background:var(--bg);color:var(--text);overflow-x:hidden;
 }
 
 body.dark{
-  --bg:linear-gradient(to right,#020202,#03110a,#062116,#0a2b1d,#123a29);
-  --card:rgba(255,255,255,.035);--text:#fff;--muted:#aab7b0;
-  --soft:rgba(0,210,111,.08);--border:rgba(0,210,111,.13);
-  --green:#00d26f;--green-dark:#00994f;
-  --shadow:rgba(0,210,111,.10);--header:rgba(0,0,0,.72);
+--bg:linear-gradient(to right,#020202,#03110a,#062116,#0a2b1d,#123a29);
+--card:rgba(255,255,255,.035);--text:#fff;--muted:#aab7b0;
+--soft:rgba(0,210,111,.08);--border:rgba(0,210,111,.13);
+--green:#00d26f;--green-dark:#00994f;
+--shadow:rgba(0,210,111,.10);--header:rgba(0,0,0,.72);
 }
 
 header{
-  min-height:74px;display:flex;justify-content:space-between;align-items:center;
-  padding:0 6%;background:var(--header);border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:1000;backdrop-filter:blur(14px);
-  animation:slideDown .7s ease forwards;
+min-height:74px;display:flex;justify-content:space-between;align-items:center;
+padding:0 6%;background:var(--header);border-bottom:1px solid var(--border);
+position:sticky;top:0;z-index:1000;backdrop-filter:blur(14px);
+animation:slideDown .7s ease forwards;
 }
 
 .logo-section{display:flex;align-items:center;gap:12px;}
 .logo-icon{
-  width:44px;height:44px;border-radius:14px;
-  background:linear-gradient(135deg,var(--green),var(--green-dark));
-  color:white;display:flex;justify-content:center;align-items:center;
-  font-size:23px;font-weight:900;
+width:44px;height:44px;border-radius:14px;
+background:linear-gradient(135deg,var(--green),var(--green-dark));
+color:white;display:flex;justify-content:center;align-items:center;
+font-size:23px;font-weight:900;
 }
 .logo-text h1{font-size:21px;color:var(--text);}
 .logo-text p{font-size:11px;color:var(--muted);margin-top:4px;}
 
 nav{display:flex;gap:28px;flex-wrap:wrap;}
 nav a{
-  text-decoration:none;color:var(--text);font-size:15px;font-weight:900;
-  position:relative;transition:.3s ease;
+text-decoration:none;color:var(--text);font-size:15px;font-weight:900;
+position:relative;transition:.3s ease;
 }
 nav a::after{
-  content:"";position:absolute;left:0;bottom:-7px;width:0;height:2px;
-  background:var(--green);transition:.3s ease;
+content:"";position:absolute;left:0;bottom:-7px;width:0;height:2px;
+background:var(--green);transition:.3s ease;
 }
 nav a:hover::after,nav a.active::after{width:100%;}
 nav a:hover,nav a.active{color:var(--green);}
 
 .header-actions{display:flex;gap:12px;flex-wrap:wrap;}
-.mode-btn,.clear-btn{
-  padding:11px 18px;border-radius:14px;border:1px solid var(--border);
-  background:var(--card);color:var(--text);font-size:14px;font-weight:900;
-  cursor:pointer;transition:.3s ease;
+
+.mode-btn{
+padding:11px 18px;border-radius:14px;border:1px solid var(--border);
+background:var(--card);color:var(--text);font-size:14px;font-weight:900;
+cursor:pointer;transition:.3s ease;
 }
-.clear-btn{background:#ff4d4d;color:white;border-color:#ff4d4d;}
-.mode-btn:hover,.clear-btn:hover{transform:translateY(-3px) scale(1.04);}
+
+.mode-btn:hover{transform:translateY(-3px) scale(1.04);}
 
 .page{min-height:100vh;padding:42px 6% 90px;}
+
 .page-title{margin-bottom:32px;animation:fadeUp .8s ease forwards;}
+
 .tag{
-  display:inline-flex;padding:10px 18px;border-radius:30px;border:1px solid var(--border);
-  background:var(--card);color:var(--green);font-size:14px;font-weight:900;
-  margin-bottom:18px;box-shadow:0 12px 28px var(--shadow);
+display:inline-flex;padding:10px 18px;border-radius:30px;border:1px solid var(--border);
+background:var(--card);color:var(--green);font-size:14px;font-weight:900;
+margin-bottom:18px;box-shadow:0 12px 28px var(--shadow);
 }
+
 .page-title h2{font-size:56px;line-height:1.05;letter-spacing:-2px;margin-bottom:14px;}
 .page-title h2 span{color:var(--green);}
 .page-title p{color:var(--muted);font-size:17px;line-height:1.7;max-width:760px;}
 
 .stats-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:30px;
+display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:30px;
 }
+
 .stat-card{
-  background:var(--card);border:1px solid var(--border);border-radius:26px;
-  padding:24px;box-shadow:0 20px 48px var(--shadow);transition:.3s ease;
-  animation:fadeUp .8s ease forwards;
+background:var(--card);border:1px solid var(--border);border-radius:26px;
+padding:24px;box-shadow:0 20px 48px var(--shadow);transition:.3s ease;
+animation:fadeUp .8s ease forwards;
 }
+
 .stat-card:hover{transform:translateY(-7px);}
 .stat-card .label{color:var(--muted);font-size:13px;font-weight:900;margin-bottom:10px;}
 .stat-card .value{color:var(--green);font-size:34px;font-weight:900;}
 
 .admin-layout{display:grid;grid-template-columns:1fr;gap:26px;}
+
 .panel{
-  background:var(--card);border:1px solid var(--border);border-radius:34px;
-  padding:30px;box-shadow:0 28px 65px var(--shadow);animation:fadeUp .9s ease forwards;
+background:var(--card);border:1px solid var(--border);border-radius:34px;
+padding:30px;box-shadow:0 28px 65px var(--shadow);animation:fadeUp .9s ease forwards;
 }
+
 .panel-top{
-  display:flex;justify-content:space-between;align-items:center;gap:20px;
-  flex-wrap:wrap;margin-bottom:24px;
+display:flex;justify-content:space-between;align-items:center;gap:20px;
+flex-wrap:wrap;margin-bottom:24px;
 }
+
 .panel-top h3{font-size:28px;}
 .panel-top span{color:var(--green);font-weight:900;}
 
 .submission-list,.payout-list{display:flex;flex-direction:column;gap:18px;}
+
 .submission-card,.payout-card{
-  padding:26px;border-radius:28px;background:var(--soft);border:1px solid var(--border);
-  display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center;
-  transition:.3s ease;animation:fadeUp .7s ease forwards;
+padding:26px;border-radius:28px;background:var(--soft);border:1px solid var(--border);
+display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center;
+transition:.3s ease;animation:fadeUp .7s ease forwards;
 }
+
 .submission-card:hover,.payout-card:hover{transform:translateY(-4px);}
-.submission-card h4,.payout-card h4{font-size:24px;margin-bottom:10px;color:var(--text);}
+
+.submission-card h4,.payout-card h4{
+font-size:24px;margin-bottom:10px;color:var(--text);
+}
+
 .submission-card p,.payout-card p{
-  color:var(--muted);font-size:15px;line-height:1.7;word-break:break-all;margin-top:3px;
+color:var(--muted);font-size:15px;line-height:1.7;word-break:break-all;margin-top:3px;
 }
 
 .creator-badge{
-  display:inline-block;margin-bottom:12px;padding:8px 12px;border-radius:999px;
-  background:var(--card);border:1px solid var(--border);color:var(--green);
-  font-size:13px;font-weight:900;
+display:inline-block;margin-bottom:12px;padding:8px 12px;border-radius:999px;
+background:var(--card);border:1px solid var(--border);color:var(--green);
+font-size:13px;font-weight:900;
 }
 
 .metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px;}
-.metric{
-  padding:16px;border-radius:20px;background:var(--card);border:1px solid var(--border);
-}
-.metric small{display:block;color:var(--muted);font-size:12px;font-weight:900;margin-bottom:6px;}
-.metric strong{display:block;color:var(--green);font-size:24px;font-weight:900;}
 
-.right-side{display:flex;flex-direction:column;align-items:flex-end;gap:16px;min-width:260px;}
+.metric{
+padding:16px;border-radius:20px;background:var(--card);border:1px solid var(--border);
+}
+
+.metric small{
+display:block;color:var(--muted);font-size:12px;font-weight:900;margin-bottom:6px;
+}
+
+.metric strong{
+display:block;color:var(--green);font-size:24px;font-weight:900;
+}
+
+.right-side{
+display:flex;flex-direction:column;align-items:flex-end;gap:16px;min-width:260px;
+}
+
 .status-pill{
-  width:100%;padding:14px 20px;border-radius:999px;text-align:center;
-  font-weight:900;font-size:15px;
+width:100%;padding:14px 20px;border-radius:999px;text-align:center;
+font-weight:900;font-size:15px;
 }
 
 .underprocess,.pending{
-  color:#ad7600;background:rgba(255,209,102,.18);
-  border:1px solid rgba(255,209,102,.34);
+color:#ad7600;background:rgba(255,209,102,.18);
+border:1px solid rgba(255,209,102,.34);
 }
+
 .approved{
-  color:var(--green);background:rgba(0,210,111,.12);
-  border:1px solid rgba(0,210,111,.25);
+color:var(--green);background:rgba(0,210,111,.12);
+border:1px solid rgba(0,210,111,.25);
 }
+
 .rejected{
-  color:#ff5c5c;background:rgba(255,92,92,.12);
-  border:1px solid rgba(255,92,92,.25);
+color:#ff5c5c;background:rgba(255,92,92,.12);
+border:1px solid rgba(255,92,92,.25);
 }
+
 .paid{
-  color:#3d8bff;background:rgba(61,139,255,.12);
-  border:1px solid rgba(61,139,255,.25);
+color:#3d8bff;background:rgba(61,139,255,.12);
+border:1px solid rgba(61,139,255,.25);
 }
 
 .actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px;}
-.open-btn,.approve-btn,.reject-btn,.remove-btn,.paid-btn{
-  text-decoration:none;padding:12px 16px;border-radius:14px;border:none;
-  cursor:pointer;font-size:14px;font-weight:900;transition:.3s ease;
+
+.open-btn,.approve-btn,.reject-btn,.hide-btn,.paid-btn{
+text-decoration:none;padding:12px 16px;border-radius:14px;border:none;
+cursor:pointer;font-size:14px;font-weight:900;transition:.3s ease;
 }
+
 .open-btn{background:linear-gradient(135deg,var(--green),var(--green-dark));color:white;}
 .approve-btn{background:rgba(0,210,111,.12);color:var(--green);border:1px solid rgba(0,210,111,.25);}
 .reject-btn{background:rgba(255,209,102,.14);color:#b47a00;border:1px solid rgba(255,209,102,.32);}
 .paid-btn{background:rgba(61,139,255,.12);color:#3d8bff;border:1px solid rgba(61,139,255,.25);}
-.remove-btn{background:rgba(255,77,77,.12);color:#ff5c5c;border:1px solid rgba(255,77,77,.25);}
-.open-btn:hover,.approve-btn:hover,.reject-btn:hover,.remove-btn:hover,.paid-btn:hover{
-  transform:translateY(-3px) scale(1.04);
+.hide-btn{background:rgba(255,77,77,.12);color:#ff5c5c;border:1px solid rgba(255,77,77,.25);}
+
+.open-btn:hover,.approve-btn:hover,.reject-btn:hover,.hide-btn:hover,.paid-btn:hover{
+transform:translateY(-3px) scale(1.04);
 }
 
 .empty-box{
-  padding:24px;border-radius:24px;background:var(--soft);border:1px solid var(--border);
-  color:var(--muted);font-weight:800;line-height:1.7;
+padding:24px;border-radius:24px;background:var(--soft);border:1px solid var(--border);
+color:var(--muted);font-weight:800;line-height:1.7;
 }
 
 .creator-list{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+
 .creator-card{
-  padding:20px;border-radius:22px;background:var(--soft);border:1px solid var(--border);
+padding:20px;border-radius:22px;background:var(--soft);border:1px solid var(--border);
 }
+
 .creator-card h4{font-size:18px;color:var(--text);margin-bottom:8px;}
 .creator-card p{color:var(--muted);font-size:14px;word-break:break-all;line-height:1.6;}
 
 .video-box{
-  margin-top:16px;padding:14px;border-radius:18px;background:var(--card);
-  border:1px solid var(--border);
+margin-top:16px;padding:14px;border-radius:18px;background:var(--card);
+border:1px solid var(--border);
 }
 
 @keyframes slideDown{
-  from{opacity:0;transform:translateY(-20px);}
-  to{opacity:1;transform:translateY(0);}
+from{opacity:0;transform:translateY(-20px);}
+to{opacity:1;transform:translateY(0);}
 }
+
 @keyframes fadeUp{
-  from{opacity:0;transform:translateY(28px);}
-  to{opacity:1;transform:translateY(0);}
+from{opacity:0;transform:translateY(28px);}
+to{opacity:1;transform:translateY(0);}
 }
 
 @media(max-width:1050px){
-  header{flex-direction:column;height:auto;padding:18px;gap:16px;}
-  nav{justify-content:center;}
-  .stats-grid{grid-template-columns:1fr 1fr;}
-  .submission-card,.payout-card{grid-template-columns:1fr;}
-  .right-side{align-items:flex-start;min-width:auto;}
-  .actions{justify-content:flex-start;}
-  .creator-list{grid-template-columns:1fr 1fr;}
+header{flex-direction:column;height:auto;padding:18px;gap:16px;}
+nav{justify-content:center;}
+.stats-grid{grid-template-columns:1fr 1fr;}
+.submission-card,.payout-card{grid-template-columns:1fr;}
+.right-side{align-items:flex-start;min-width:auto;}
+.actions{justify-content:flex-start;}
+.creator-list{grid-template-columns:1fr 1fr;}
 }
 
 @media(max-width:650px){
-  .stats-grid,.creator-list,.metrics{grid-template-columns:1fr;}
-  .page-title h2{font-size:40px;}
+.stats-grid,.creator-list,.metrics{grid-template-columns:1fr;}
+.page-title h2{font-size:40px;}
 }
 </style>
 </head>
@@ -208,6 +247,7 @@ nav a:hover,nav a.active{color:var(--green);}
 <header>
   <div class="logo-section">
     <div class="logo-icon">C</div>
+
     <div class="logo-text">
       <h1>CYRON</h1>
       <p>Admin Control Panel</p>
@@ -215,14 +255,13 @@ nav a:hover,nav a.active{color:var(--green);}
   </div>
 
   <nav>
-    <a href="index.html">Home</a>
+    <a href="cyronhomepage.html">Home</a>
     <a href="cyronadmin.html" class="active">Admin</a>
     <a href="cyronadminpayout.html">Payouts</a>
   </nav>
 
   <div class="header-actions">
     <button class="mode-btn" id="modeBtn" onclick="toggleMode()">Dark Mode</button>
-    <button class="clear-btn" onclick="clearAllSubmissions()">Clear Videos</button>
   </div>
 </header>
 
@@ -230,21 +269,27 @@ nav a:hover,nav a.active{color:var(--green);}
 
   <div class="page-title">
     <div class="tag">Admin workspace</div>
-    <h2>Review creator <span>activity.</span></h2>
+
+    <h2>
+      Review creator
+      <span>activity.</span>
+    </h2>
+
     <p>
-      See registered creators, submitted campaign videos, and payout requests from creators.
-      Approve videos, reject videos, remove submissions, and update payout status.
+      See registered creators, submitted videos, and payout requests.
+      Use Hide to clean the admin panel without deleting saved data.
     </p>
   </div>
 
   <div class="stats-grid">
+
     <div class="stat-card">
       <div class="label">Total Creators</div>
       <div class="value" id="totalCreators">0</div>
     </div>
 
     <div class="stat-card">
-      <div class="label">Total Videos</div>
+      <div class="label">Visible Videos</div>
       <div class="value" id="totalVideos">0</div>
     </div>
 
@@ -254,9 +299,10 @@ nav a:hover,nav a.active{color:var(--green);}
     </div>
 
     <div class="stat-card">
-      <div class="label">Payout Requests</div>
+      <div class="label">Visible Payouts</div>
       <div class="value" id="totalPayoutRequests">0</div>
     </div>
+
   </div>
 
   <div class="admin-layout">
@@ -266,6 +312,7 @@ nav a:hover,nav a.active{color:var(--green);}
         <h3>Submitted Videos</h3>
         <span id="videoCountText">0 submissions</span>
       </div>
+
       <div class="submission-list" id="submissionList"></div>
     </div>
 
@@ -274,6 +321,7 @@ nav a:hover,nav a.active{color:var(--green);}
         <h3>Registered Creators</h3>
         <span id="creatorCountText">0 creators</span>
       </div>
+
       <div class="creator-list" id="creatorList"></div>
     </div>
 
@@ -282,6 +330,7 @@ nav a:hover,nav a.active{color:var(--green);}
         <h3>Payout Requests</h3>
         <span id="payoutCountText">0 requests</span>
       </div>
+
       <div class="payout-list" id="payoutList"></div>
     </div>
 
@@ -296,10 +345,17 @@ function applyTheme(){
 
   if(savedMode === "dark"){
     document.body.classList.add("dark");
-    if(modeBtn) modeBtn.textContent = "Light Mode";
+
+    if(modeBtn){
+      modeBtn.textContent = "Light Mode";
+    }
+
   } else {
     document.body.classList.remove("dark");
-    if(modeBtn) modeBtn.textContent = "Dark Mode";
+
+    if(modeBtn){
+      modeBtn.textContent = "Dark Mode";
+    }
   }
 }
 
@@ -329,15 +385,15 @@ import {
   collection,
   getDocs,
   doc,
-  updateDoc,
-  deleteDoc
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const ADMIN_EMAILS = [
-  "gifegirrafe@gmail.com"
+  "pmitu.prasad@gmail.com"
 ];
 
 onAuthStateChanged(auth,function(user){
+
   if(!user){
     window.location.href = "cyroncreatorlogin.html";
     return;
@@ -345,51 +401,114 @@ onAuthStateChanged(auth,function(user){
 
   if(!ADMIN_EMAILS.includes(user.email)){
     alert("Admin access only.");
-    window.location.href = "index.html";
+    window.location.href = "cyronhomepage.html";
     return;
   }
 
   loadAdminData();
+
 });
 
 function getStatusClass(status){
-  if(status === "Approved") return "approved";
-  if(status === "Rejected") return "rejected";
-  if(status === "Paid") return "paid";
-  if(status === "Pending") return "pending";
+
+  if(status === "Approved"){
+    return "approved";
+  }
+
+  if(status === "Rejected"){
+    return "rejected";
+  }
+
+  if(status === "Paid"){
+    return "paid";
+  }
+
+  if(status === "Pending"){
+    return "pending";
+  }
+
   return "underprocess";
 }
 
 async function loadAdminData(){
+
   let creators = [];
   let submissions = [];
   let payouts = [];
 
-  let creatorSnap = await getDocs(collection(db,"creators"));
+  let creatorSnap =
+  await getDocs(collection(db,"creators"));
+
   creatorSnap.forEach(function(docSnap){
-    creators.push({id:docSnap.id,...docSnap.data()});
+
+    creators.push({
+      id:docSnap.id,
+      ...docSnap.data()
+    });
+
   });
 
-  let submissionSnap = await getDocs(collection(db,"submissions"));
+  let submissionSnap =
+  await getDocs(collection(db,"submissions"));
+
   submissionSnap.forEach(function(docSnap){
-    submissions.push({id:docSnap.id,...docSnap.data()});
+
+    let data = docSnap.data();
+
+    if(data.hidden === true){
+      return;
+    }
+
+    submissions.push({
+      id:docSnap.id,
+      ...data
+    });
+
   });
 
-  let payoutSnap = await getDocs(collection(db,"payoutRequests"));
+  let payoutSnap =
+  await getDocs(collection(db,"payoutRequests"));
+
   payoutSnap.forEach(function(docSnap){
-    payouts.push({id:docSnap.id,...docSnap.data()});
+
+    let data = docSnap.data();
+
+    if(data.hidden === true){
+      return;
+    }
+
+    payouts.push({
+      id:docSnap.id,
+      ...data
+    });
+
   });
 
-  let approved = submissions.filter(item => item.status === "Approved");
+  let approved =
+  submissions.filter(function(item){
+    return item.status === "Approved";
+  });
 
-  document.getElementById("totalCreators").textContent = creators.length;
-  document.getElementById("totalVideos").textContent = submissions.length;
-  document.getElementById("approvedVideos").textContent = approved.length;
-  document.getElementById("totalPayoutRequests").textContent = payouts.length;
+  document.getElementById("totalCreators").textContent =
+  creators.length;
 
-  document.getElementById("videoCountText").textContent = submissions.length + " submissions";
-  document.getElementById("creatorCountText").textContent = creators.length + " creators";
-  document.getElementById("payoutCountText").textContent = payouts.length + " requests";
+  document.getElementById("totalVideos").textContent =
+  submissions.length;
+
+  document.getElementById("approvedVideos").textContent =
+  approved.length;
+
+  document.getElementById("totalPayoutRequests").textContent =
+  payouts.length;
+
+  document.getElementById("videoCountText").textContent =
+  submissions.length + " submissions";
+
+  document.getElementById("creatorCountText").textContent =
+  creators.length + " creators";
+
+  document.getElementById("payoutCountText").textContent =
+  payouts.length + " requests";
 
   showSubmissions(submissions);
   showCreators(creators);
@@ -397,70 +516,128 @@ async function loadAdminData(){
 }
 
 function showSubmissions(submissions){
-  let list = document.getElementById("submissionList");
+
+  let list =
+  document.getElementById("submissionList");
+
   list.innerHTML = "";
 
   if(submissions.length === 0){
-    list.innerHTML = `<div class="empty-box">No videos have been submitted yet.</div>`;
+
+    list.innerHTML = `
+      <div class="empty-box">
+        No visible submitted videos.
+      </div>
+    `;
+
     return;
   }
 
   submissions.reverse().forEach(function(item,index){
-    let status = item.status || "Under Process";
-    let statusClass = getStatusClass(status);
 
-    let card = document.createElement("div");
-    card.className = "submission-card";
-    card.style.animationDelay = `${index * .08}s`;
+    let status =
+    item.status || "Under Process";
+
+    let statusClass =
+    getStatusClass(status);
+
+    let card =
+    document.createElement("div");
+
+    card.className =
+    "submission-card";
+
+    card.style.animationDelay =
+    `${index * .08}s`;
 
     card.innerHTML = `
       <div>
-        <span class="creator-badge">${item.creatorName || "Unknown Creator"} · ${item.creatorEmail || "No email"}</span>
+        <span class="creator-badge">
+          ${item.creatorName || "Unknown Creator"} · ${item.creatorEmail || "No email"}
+        </span>
+
         <h4>${item.campaign || "Starpets Sponsor"}</h4>
+
         <p><strong>Platform:</strong> ${item.platform || "YouTube Shorts"}</p>
+
         <p><strong>Video Link:</strong> ${item.link || "No link submitted"}</p>
+
         <p><strong>Date:</strong> ${item.date || "No date"}</p>
 
         <div class="metrics">
+
           <div class="metric">
             <small>Views</small>
             <strong>${Number(item.views || 0).toLocaleString()}</strong>
           </div>
+
           <div class="metric">
             <small>Earnings</small>
             <strong>$${Number(item.earnings || 0).toFixed(2)}</strong>
           </div>
+
         </div>
       </div>
 
       <div class="right-side">
-        <div class="status-pill ${statusClass}">${status}</div>
+
+        <div class="status-pill ${statusClass}">
+          ${status}
+        </div>
 
         <div class="actions">
-          <a href="${item.link || "#"}" target="_blank" class="open-btn">Open</a>
-          <button class="approve-btn" onclick="approveSubmission('${item.id}')">Approve</button>
-          <button class="reject-btn" onclick="rejectSubmission('${item.id}')">Reject</button>
-          <button class="remove-btn" onclick="removeSubmission('${item.id}')">Remove</button>
+
+          <a href="${item.link || "#"}" target="_blank" class="open-btn">
+            Open
+          </a>
+
+          <button class="approve-btn" onclick="approveSubmission('${item.id}')">
+            Approve
+          </button>
+
+          <button class="reject-btn" onclick="rejectSubmission('${item.id}')">
+            Reject
+          </button>
+
+          <button class="hide-btn" onclick="hideSubmission('${item.id}')">
+            Hide
+          </button>
+
         </div>
+
       </div>
     `;
 
     list.appendChild(card);
+
   });
 }
 
 function showCreators(creators){
-  let list = document.getElementById("creatorList");
+
+  let list =
+  document.getElementById("creatorList");
+
   list.innerHTML = "";
 
   if(creators.length === 0){
-    list.innerHTML = `<div class="empty-box">No creators have signed up yet.</div>`;
+
+    list.innerHTML = `
+      <div class="empty-box">
+        No creators have signed up yet.
+      </div>
+    `;
+
     return;
   }
 
   creators.forEach(function(creator){
-    let card = document.createElement("div");
-    card.className = "creator-card";
+
+    let card =
+    document.createElement("div");
+
+    card.className =
+    "creator-card";
 
     card.innerHTML = `
       <h4>${creator.name || creator.displayName || "Unnamed Creator"}</h4>
@@ -469,41 +646,78 @@ function showCreators(creators){
     `;
 
     list.appendChild(card);
+
   });
 }
 
 function showPayouts(payouts){
-  let list = document.getElementById("payoutList");
+
+  let list =
+  document.getElementById("payoutList");
+
   list.innerHTML = "";
 
   if(payouts.length === 0){
-    list.innerHTML = `<div class="empty-box">No payout requests yet.</div>`;
+
+    list.innerHTML = `
+      <div class="empty-box">
+        No visible payout requests.
+      </div>
+    `;
+
     return;
   }
 
   payouts.reverse().forEach(function(request,index){
-    let status = request.status || "Pending";
-    let statusClass = getStatusClass(status);
+
+    let status =
+    request.status || "Pending";
+
+    let statusClass =
+    getStatusClass(status);
 
     let videosHTML = "";
 
     if(request.videos && request.videos.length > 0){
+
       request.videos.forEach(function(video,i){
-        videosHTML += `<p><strong>Video ${i + 1}:</strong> ${video.link}</p>`;
+
+        videosHTML += `
+          <p>
+            <strong>Video ${i + 1}:</strong>
+            ${video.link}
+          </p>
+        `;
+
       });
+
     } else {
-      videosHTML = `<p>No videos attached.</p>`;
+
+      videosHTML = `
+        <p>No videos attached.</p>
+      `;
     }
 
-    let card = document.createElement("div");
-    card.className = "payout-card";
-    card.style.animationDelay = `${index * .08}s`;
+    let card =
+    document.createElement("div");
+
+    card.className =
+    "payout-card";
+
+    card.style.animationDelay =
+    `${index * .08}s`;
 
     card.innerHTML = `
       <div>
-        <span class="creator-badge">${request.creatorName || "Creator"} · ${request.creatorEmail || "No email"}</span>
+
+        <span class="creator-badge">
+          ${request.creatorName || "Creator"} · ${request.creatorEmail || "No email"}
+        </span>
+
         <h4>${request.method || "Payment Method"}</h4>
+
         <p><strong>Address:</strong> ${request.address || "No address"}</p>
+
         <p><strong>Date:</strong> ${request.date || "No date"}</p>
 
         <div class="video-box">
@@ -511,77 +725,130 @@ function showPayouts(payouts){
         </div>
 
         <div class="metrics">
+
           <div class="metric">
             <small>Amount</small>
             <strong>$${Number(request.amount || 0).toFixed(2)}</strong>
           </div>
+
         </div>
       </div>
 
       <div class="right-side">
-        <div class="status-pill ${statusClass}">${status}</div>
+
+        <div class="status-pill ${statusClass}">
+          ${status}
+        </div>
 
         <div class="actions">
-          <button class="approve-btn" onclick="approvePayout('${request.id}')">Approve</button>
-          <button class="paid-btn" onclick="markPayoutPaid('${request.id}')">Mark Paid</button>
-          <button class="reject-btn" onclick="rejectPayout('${request.id}')">Reject</button>
-          <button class="remove-btn" onclick="removePayout('${request.id}')">Remove</button>
+
+          <button class="approve-btn" onclick="approvePayout('${request.id}')">
+            Approve
+          </button>
+
+          <button class="paid-btn" onclick="markPayoutPaid('${request.id}')">
+            Mark Paid
+          </button>
+
+          <button class="reject-btn" onclick="rejectPayout('${request.id}')">
+            Reject
+          </button>
+
+          <button class="hide-btn" onclick="hidePayout('${request.id}')">
+            Hide
+          </button>
+
         </div>
+
       </div>
     `;
 
     list.appendChild(card);
+
   });
 }
 
 window.approveSubmission = async function(id){
-  await updateDoc(doc(db,"submissions",id),{status:"Approved"});
+
+  await updateDoc(
+    doc(db,"submissions",id),
+    {
+      status:"Approved"
+    }
+  );
+
   loadAdminData();
 }
 
 window.rejectSubmission = async function(id){
-  await updateDoc(doc(db,"submissions",id),{status:"Rejected"});
+
+  await updateDoc(
+    doc(db,"submissions",id),
+    {
+      status:"Rejected"
+    }
+  );
+
   loadAdminData();
 }
 
-window.removeSubmission = async function(id){
-  if(!confirm("Remove this submitted video?")) return;
-  await deleteDoc(doc(db,"submissions",id));
+window.hideSubmission = async function(id){
+
+  await updateDoc(
+    doc(db,"submissions",id),
+    {
+      hidden:true
+    }
+  );
+
   loadAdminData();
 }
 
 window.approvePayout = async function(id){
-  await updateDoc(doc(db,"payoutRequests",id),{status:"Approved"});
+
+  await updateDoc(
+    doc(db,"payoutRequests",id),
+    {
+      status:"Approved"
+    }
+  );
+
   loadAdminData();
 }
 
 window.markPayoutPaid = async function(id){
-  await updateDoc(doc(db,"payoutRequests",id),{status:"Paid"});
+
+  await updateDoc(
+    doc(db,"payoutRequests",id),
+    {
+      status:"Paid"
+    }
+  );
+
   loadAdminData();
 }
 
 window.rejectPayout = async function(id){
-  await updateDoc(doc(db,"payoutRequests",id),{status:"Rejected"});
+
+  await updateDoc(
+    doc(db,"payoutRequests",id),
+    {
+      status:"Rejected"
+    }
+  );
+
   loadAdminData();
 }
 
-window.removePayout = async function(id){
-  if(!confirm("Remove this payout request?")) return;
-  await deleteDoc(doc(db,"payoutRequests",id));
-  loadAdminData();
-}
+window.hidePayout = async function(id){
 
-window.clearAllSubmissions = async function(){
-  if(!confirm("Remove all submitted videos?")) return;
+  await updateDoc(
+    doc(db,"payoutRequests",id),
+    {
+      hidden:true
+    }
+  );
 
-  let snap = await getDocs(collection(db,"submissions"));
-  let deletes = [];
-
-  snap.forEach(function(docSnap){
-    deletes.push(deleteDoc(doc(db,"submissions",docSnap.id)));
-  });
-
-  await Promise.all(deletes);
   loadAdminData();
 }
 </script>
