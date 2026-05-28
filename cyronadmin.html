@@ -1,600 +1,625 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Cyron Admin Panel</title>
-
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
-html{scroll-behavior:smooth;}
-
-body{
---bg:#f7fbf8;
---card:#ffffff;
---text:#101513;
---muted:#65726c;
---soft:#f0faf4;
---border:rgba(0,150,80,.10);
---green:#00c86b;
---green-dark:#00994f;
---shadow:rgba(20,60,40,.10);
---header:rgba(255,255,255,.86);
-background:var(--bg);
-color:var(--text);
-overflow-x:hidden;
-}
-
-body.dark{
---bg:linear-gradient(to right,#020202,#03110a,#062116,#0a2b1d,#123a29);
---card:rgba(255,255,255,.035);
---text:#ffffff;
---muted:#aab7b0;
---soft:rgba(0,210,111,.08);
---border:rgba(0,210,111,.13);
---green:#00d26f;
---green-dark:#00994f;
---shadow:rgba(0,210,111,.10);
---header:rgba(0,0,0,.72);
-}
-
-header{
-min-height:74px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:0 6%;
-background:var(--header);
-border-bottom:1px solid var(--border);
-position:sticky;
-top:0;
-z-index:1000;
-backdrop-filter:blur(14px);
-animation:slideDown .7s ease forwards;
-}
-
-.logo-section{display:flex;align-items:center;gap:12px;}
-
-.logo-icon{
-width:44px;
-height:44px;
-border-radius:14px;
-background:linear-gradient(135deg,var(--green),var(--green-dark));
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:23px;
-font-weight:900;
-}
-
-.logo-text h1{font-size:21px;color:var(--text);}
-.logo-text p{font-size:11px;color:var(--muted);margin-top:4px;}
-
-nav{display:flex;gap:28px;flex-wrap:wrap;}
-
-nav a{
-text-decoration:none;
-color:var(--text);
-font-size:15px;
-font-weight:900;
-position:relative;
-transition:.3s ease;
-}
-
-nav a::after{
-content:"";
-position:absolute;
-left:0;
-bottom:-7px;
-width:0;
-height:2px;
-background:var(--green);
-transition:.3s ease;
-}
-
-nav a:hover::after,
-nav a.active::after{width:100%;}
-
-nav a:hover,
-nav a.active{color:var(--green);}
-
-.header-actions{display:flex;gap:12px;flex-wrap:wrap;}
-
-.mode-btn{
-padding:11px 18px;
-border-radius:14px;
-border:1px solid var(--border);
-background:var(--card);
-color:var(--text);
-font-size:14px;
-font-weight:900;
-cursor:pointer;
-transition:.3s ease;
-}
-
-.mode-btn:hover{transform:translateY(-3px) scale(1.04);}
-
-.page{
-min-height:100vh;
-padding:42px 6% 90px;
-}
-
-.page-title{
-margin-bottom:32px;
-animation:fadeUp .8s ease forwards;
-}
-
-.tag{
-display:inline-flex;
-padding:10px 18px;
-border-radius:30px;
-border:1px solid var(--border);
-background:var(--card);
-color:var(--green);
-font-size:14px;
-font-weight:900;
-margin-bottom:18px;
-box-shadow:0 12px 28px var(--shadow);
-}
-
-.page-title h2{
-font-size:56px;
-line-height:1.05;
-letter-spacing:-2px;
-margin-bottom:14px;
-}
-
-.page-title h2 span{color:var(--green);}
-
-.page-title p{
-color:var(--muted);
-font-size:17px;
-line-height:1.7;
-max-width:760px;
-}
-
-.stats-grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:18px;
-margin-bottom:30px;
-}
-
-.stat-card{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:26px;
-padding:24px;
-box-shadow:0 20px 48px var(--shadow);
-transition:.3s ease;
-animation:fadeUp .8s ease forwards;
-}
-
-.stat-card:hover{transform:translateY(-7px);}
-
-.stat-card .label{
-color:var(--muted);
-font-size:13px;
-font-weight:900;
-margin-bottom:10px;
-}
-
-.stat-card .value{
-color:var(--green);
-font-size:34px;
-font-weight:900;
-}
-
-.admin-layout{
-display:grid;
-grid-template-columns:1fr;
-gap:26px;
-}
-
-.panel{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:34px;
-padding:30px;
-box-shadow:0 28px 65px var(--shadow);
-animation:fadeUp .9s ease forwards;
-}
-
-.panel-top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:20px;
-flex-wrap:wrap;
-margin-bottom:24px;
-}
-
-.panel-top h3{font-size:28px;}
-.panel-top span{color:var(--green);font-weight:900;}
-
-.submission-list{
-display:flex;
-flex-direction:column;
-gap:18px;
-}
-
-.submission-card{
-padding:26px;
-border-radius:28px;
-background:var(--soft);
-border:1px solid var(--border);
-display:grid;
-grid-template-columns:1fr auto;
-gap:22px;
-align-items:center;
-transition:.3s ease;
-animation:fadeUp .7s ease forwards;
-}
-
-.submission-card:hover{transform:translateY(-4px);}
-
-.submission-card h4{
-font-size:24px;
-margin-bottom:10px;
-color:var(--text);
-}
-
-.submission-card p{
-color:var(--muted);
-font-size:15px;
-line-height:1.7;
-word-break:break-all;
-margin-top:3px;
-}
-
-.creator-badge{
-display:inline-block;
-margin-bottom:12px;
-padding:8px 12px;
-border-radius:999px;
-background:var(--card);
-border:1px solid var(--border);
-color:var(--green);
-font-size:13px;
-font-weight:900;
-}
-
-.metrics{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
-margin-top:16px;
-}
-
-.metric{
-padding:16px;
-border-radius:20px;
-background:var(--card);
-border:1px solid var(--border);
-}
-
-.metric small{
-display:block;
-color:var(--muted);
-font-size:12px;
-font-weight:900;
-margin-bottom:6px;
-}
-
-.metric strong{
-display:block;
-color:var(--green);
-font-size:24px;
-font-weight:900;
-}
-
-.right-side{
-display:flex;
-flex-direction:column;
-align-items:flex-end;
-gap:16px;
-min-width:260px;
-}
-
-.status-pill{
-width:100%;
-padding:14px 20px;
-border-radius:999px;
-text-align:center;
-font-weight:900;
-font-size:15px;
-}
-
-.underprocess{
-color:#ad7600;
-background:rgba(255,209,102,.18);
-border:1px solid rgba(255,209,102,.34);
-}
-
-.approved{
-color:var(--green);
-background:rgba(0,210,111,.12);
-border:1px solid rgba(0,210,111,.25);
-}
-
-.rejected{
-color:#ff5c5c;
-background:rgba(255,92,92,.12);
-border:1px solid rgba(255,92,92,.25);
-}
-
-.actions{
-display:flex;
-flex-wrap:wrap;
-justify-content:flex-end;
-gap:10px;
-}
-
-.open-btn,
-.approve-btn,
-.reject-btn,
-.hide-btn{
-text-decoration:none;
-padding:12px 16px;
-border-radius:14px;
-border:none;
-cursor:pointer;
-font-size:14px;
-font-weight:900;
-transition:.3s ease;
-}
-
-.open-btn{
-background:linear-gradient(135deg,var(--green),var(--green-dark));
-color:white;
-}
-
-.approve-btn{
-background:rgba(0,210,111,.12);
-color:var(--green);
-border:1px solid rgba(0,210,111,.25);
-}
-
-.reject-btn{
-background:rgba(255,209,102,.14);
-color:#b47a00;
-border:1px solid rgba(255,209,102,.32);
-}
-
-.hide-btn{
-background:rgba(255,77,77,.12);
-color:#ff5c5c;
-border:1px solid rgba(255,77,77,.25);
-}
-
-.open-btn:hover,
-.approve-btn:hover,
-.reject-btn:hover,
-.hide-btn:hover{
-transform:translateY(-3px) scale(1.04);
-}
-
-.empty-box{
-padding:24px;
-border-radius:24px;
-background:var(--soft);
-border:1px solid var(--border);
-color:var(--muted);
-font-weight:800;
-line-height:1.7;
-}
-
-.creator-list{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:16px;
-}
-
-.creator-card{
-padding:20px;
-border-radius:22px;
-background:var(--soft);
-border:1px solid var(--border);
-}
-
-.creator-card h4{
-font-size:18px;
-color:var(--text);
-margin-bottom:8px;
-}
-
-.creator-card p{
-color:var(--muted);
-font-size:14px;
-word-break:break-all;
-line-height:1.6;
-}
-
-@keyframes slideDown{
-from{opacity:0;transform:translateY(-20px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(28px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-@media(max-width:1050px){
-header{
-flex-direction:column;
-height:auto;
-padding:18px;
-gap:16px;
-}
-
-nav{justify-content:center;}
-
-.stats-grid{
-grid-template-columns:1fr 1fr;
-}
-
-.submission-card{
-grid-template-columns:1fr;
-}
-
-.right-side{
-align-items:flex-start;
-min-width:auto;
-}
-
-.actions{
-justify-content:flex-start;
-}
-
-.creator-list{
-grid-template-columns:1fr 1fr;
-}
-}
-
-@media(max-width:650px){
-.stats-grid,
-.creator-list,
-.metrics{
-grid-template-columns:1fr;
-}
-
-.page-title h2{
-font-size:40px;
-}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Cyron Admin Panel</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      --bg:#f7fbf8;
+      --card:#ffffff;
+      --text:#101513;
+      --muted:#65726c;
+      --soft:#f0faf4;
+      --border:rgba(0,150,80,0.10);
+      --green:#00c86b;
+      --green-dark:#00994f;
+      --shadow:rgba(20,60,40,0.10);
+      --header:rgba(255,255,255,0.86);
+
+      background:var(--bg);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+
+    body.dark{
+      --bg:linear-gradient(to right,#020202,#03110a,#062116,#0a2b1d,#123a29);
+      --card:rgba(255,255,255,0.035);
+      --text:#ffffff;
+      --muted:#aab7b0;
+      --soft:rgba(0,210,111,0.08);
+      --border:rgba(0,210,111,0.13);
+      --green:#00d26f;
+      --green-dark:#00994f;
+      --shadow:rgba(0,210,111,0.10);
+      --header:rgba(0,0,0,0.72);
+    }
+
+    header{
+      min-height:74px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:0 6%;
+      background:var(--header);
+      border-bottom:1px solid var(--border);
+      position:sticky;
+      top:0;
+      z-index:1000;
+      backdrop-filter:blur(14px);
+      animation:slideDown .7s ease forwards;
+    }
+
+    .logo-section{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .logo-icon{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--green),var(--green-dark));
+      color:white;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-size:23px;
+      font-weight:900;
+    }
+
+    .logo-text h1{
+      font-size:21px;
+      color:var(--text);
+    }
+
+    .logo-text p{
+      font-size:11px;
+      color:var(--muted);
+      margin-top:4px;
+    }
+
+    nav{
+      display:flex;
+      gap:28px;
+      flex-wrap:wrap;
+    }
+
+    nav a{
+      text-decoration:none;
+      color:var(--text);
+      font-size:15px;
+      font-weight:900;
+      position:relative;
+      transition:.3s ease;
+    }
+
+    nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-7px;
+      width:0%;
+      height:2px;
+      background:var(--green);
+      transition:.3s ease;
+    }
+
+    nav a:hover::after,
+    nav a.active::after{
+      width:100%;
+    }
+
+    nav a:hover,
+    nav a.active{
+      color:var(--green);
+    }
+
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .mode-btn,
+    .clear-btn{
+      padding:11px 18px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:var(--card);
+      color:var(--text);
+      font-size:14px;
+      font-weight:900;
+      cursor:pointer;
+      transition:.3s ease;
+    }
+
+    .clear-btn{
+      background:#ff4d4d;
+      color:white;
+      border-color:#ff4d4d;
+    }
+
+    .mode-btn:hover,
+    .clear-btn:hover{
+      transform:translateY(-3px) scale(1.04);
+      box-shadow:0 14px 28px rgba(0,200,107,.18);
+    }
+
+    .page{
+      min-height:100vh;
+      padding:42px 6% 90px;
+      position:relative;
+    }
+
+    .page-title{
+      margin-bottom:32px;
+      animation:fadeUp .8s ease forwards;
+    }
+
+    .tag{
+      display:inline-flex;
+      padding:10px 18px;
+      border-radius:30px;
+      border:1px solid var(--border);
+      background:var(--card);
+      color:var(--green);
+      font-size:14px;
+      font-weight:900;
+      margin-bottom:18px;
+      box-shadow:0 12px 28px var(--shadow);
+    }
+
+    .page-title h2{
+      font-size:56px;
+      line-height:1.05;
+      letter-spacing:-2px;
+      margin-bottom:14px;
+    }
+
+    .page-title h2 span{
+      color:var(--green);
+    }
+
+    .page-title p{
+      color:var(--muted);
+      font-size:17px;
+      line-height:1.7;
+      max-width:760px;
+    }
+
+    .stats-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:18px;
+      margin-bottom:30px;
+    }
+
+    .stat-card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:26px;
+      padding:24px;
+      box-shadow:0 20px 48px var(--shadow);
+      transition:.3s ease;
+      animation:fadeUp .8s ease forwards;
+    }
+
+    .stat-card:hover{
+      transform:translateY(-7px);
+    }
+
+    .stat-card .label{
+      color:var(--muted);
+      font-size:13px;
+      font-weight:900;
+      margin-bottom:10px;
+    }
+
+    .stat-card .value{
+      color:var(--green);
+      font-size:34px;
+      font-weight:900;
+    }
+
+    .admin-layout{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:26px;
+    }
+
+    .panel{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:34px;
+      padding:30px;
+      box-shadow:0 28px 65px var(--shadow);
+      animation:fadeUp .9s ease forwards;
+    }
+
+    .panel-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      flex-wrap:wrap;
+      margin-bottom:24px;
+    }
+
+    .panel-top h3{
+      font-size:28px;
+    }
+
+    .panel-top span{
+      color:var(--green);
+      font-weight:900;
+    }
+
+    .submission-list{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .submission-card{
+      padding:26px;
+      border-radius:28px;
+      background:var(--soft);
+      border:1px solid var(--border);
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:22px;
+      align-items:center;
+      transition:.3s ease;
+      animation:fadeUp .7s ease forwards;
+    }
+
+    .submission-card:hover{
+      transform:translateY(-4px);
+    }
+
+    .submission-card h4{
+      font-size:24px;
+      margin-bottom:10px;
+      color:var(--text);
+    }
+
+    .submission-card p{
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.7;
+      word-break:break-all;
+      margin-top:3px;
+    }
+
+    .creator-badge{
+      display:inline-block;
+      margin-bottom:12px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:var(--card);
+      border:1px solid var(--border);
+      color:var(--green);
+      font-size:13px;
+      font-weight:900;
+    }
+
+    .metrics{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .metric{
+      padding:16px;
+      border-radius:20px;
+      background:var(--card);
+      border:1px solid var(--border);
+    }
+
+    .metric small{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:900;
+      margin-bottom:6px;
+    }
+
+    .metric strong{
+      display:block;
+      color:var(--green);
+      font-size:24px;
+      font-weight:900;
+    }
+
+    .right-side{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:16px;
+      min-width:260px;
+    }
+
+    .status-pill{
+      width:100%;
+      padding:14px 20px;
+      border-radius:999px;
+      text-align:center;
+      font-weight:900;
+      font-size:15px;
+    }
+
+    .underprocess{
+      color:#ad7600;
+      background:rgba(255,209,102,.18);
+      border:1px solid rgba(255,209,102,.34);
+    }
+
+    .approved{
+      color:var(--green);
+      background:rgba(0,210,111,.12);
+      border:1px solid rgba(0,210,111,.25);
+    }
+
+    .rejected{
+      color:#ff5c5c;
+      background:rgba(255,92,92,.12);
+      border:1px solid rgba(255,92,92,.25);
+    }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      gap:10px;
+    }
+
+    .open-btn,
+    .approve-btn,
+    .reject-btn,
+    .remove-btn{
+      text-decoration:none;
+      padding:12px 16px;
+      border-radius:14px;
+      border:none;
+      cursor:pointer;
+      font-size:14px;
+      font-weight:900;
+      transition:.3s ease;
+    }
+
+    .open-btn{
+      background:linear-gradient(135deg,var(--green),var(--green-dark));
+      color:white;
+    }
+
+    .approve-btn{
+      background:rgba(0,210,111,.12);
+      color:var(--green);
+      border:1px solid rgba(0,210,111,.25);
+    }
+
+    .reject-btn{
+      background:rgba(255,209,102,.14);
+      color:#b47a00;
+      border:1px solid rgba(255,209,102,.32);
+    }
+
+    .remove-btn{
+      background:rgba(255,77,77,.12);
+      color:#ff5c5c;
+      border:1px solid rgba(255,77,77,.25);
+    }
+
+    .open-btn:hover,
+    .approve-btn:hover,
+    .reject-btn:hover,
+    .remove-btn:hover{
+      transform:translateY(-3px) scale(1.04);
+    }
+
+    .empty-box{
+      padding:24px;
+      border-radius:24px;
+      background:var(--soft);
+      border:1px solid var(--border);
+      color:var(--muted);
+      font-weight:800;
+      line-height:1.7;
+    }
+
+    .creator-list{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+    }
+
+    .creator-card{
+      padding:20px;
+      border-radius:22px;
+      background:var(--soft);
+      border:1px solid var(--border);
+    }
+
+    .creator-card h4{
+      font-size:18px;
+      color:var(--text);
+      margin-bottom:8px;
+    }
+
+    .creator-card p{
+      color:var(--muted);
+      font-size:14px;
+      word-break:break-all;
+      line-height:1.6;
+    }
+
+    @keyframes slideDown{
+      from{opacity:0;transform:translateY(-20px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(28px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    @media(max-width:1050px){
+      header{
+        flex-direction:column;
+        height:auto;
+        padding:18px;
+        gap:16px;
+      }
+
+      nav{
+        justify-content:center;
+      }
+
+      .stats-grid{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .submission-card{
+        grid-template-columns:1fr;
+      }
+
+      .right-side{
+        align-items:flex-start;
+        min-width:auto;
+      }
+
+      .actions{
+        justify-content:flex-start;
+      }
+
+      .creator-list{
+        grid-template-columns:1fr 1fr;
+      }
+    }
+
+    @media(max-width:650px){
+      .stats-grid,
+      .creator-list,
+      .metrics{
+        grid-template-columns:1fr;
+      }
+
+      .page-title h2{
+        font-size:40px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
+  <header>
 
-  <div class="logo-section">
-    <div class="logo-icon">C</div>
+    <div class="logo-section">
+      <div class="logo-icon">C</div>
 
-    <div class="logo-text">
-      <h1>CYRON</h1>
-      <p>Admin Control Panel</p>
-    </div>
-  </div>
-
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="cyronadmin.html" class="active">Admin</a>
-    <a href="cyronadminpayout.html">Payouts</a>
-    <a href="cyronhiddenvideos.html">Hidden Videos</a>
-  </nav>
-
-  <div class="header-actions">
-    <button class="mode-btn" id="modeBtn" onclick="toggleMode()">Dark Mode</button>
-  </div>
-
-</header>
-
-<section class="page">
-
-  <div class="page-title">
-    <div class="tag">Admin workspace</div>
-
-    <h2>
-      Review creator
-      <span>submissions.</span>
-    </h2>
-
-    <p>
-      See registered creators and submitted campaign videos.
-      Approve, reject, or hide videos to keep the admin panel clean.
-    </p>
-  </div>
-
-  <div class="stats-grid">
-
-    <div class="stat-card">
-      <div class="label">Total Creators</div>
-      <div class="value" id="totalCreators">0</div>
+      <div class="logo-text">
+        <h1>CYRON</h1>
+        <p>Admin Control Panel</p>
+      </div>
     </div>
 
-    <div class="stat-card">
-      <div class="label">Visible Videos</div>
-      <div class="value" id="totalVideos">0</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="cyronadmin.html" class="active">Admin</a>
+      <a href="cyronadminpayout.html">Payouts</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="mode-btn" id="modeBtn" onclick="toggleMode()">Dark Mode</button>
+      <button class="clear-btn" onclick="clearAllSubmissions()">Clear Videos</button>
     </div>
 
-    <div class="stat-card">
-      <div class="label">Approved Videos</div>
-      <div class="value" id="approvedVideos">0</div>
+  </header>
+
+  <section class="page">
+
+    <div class="page-title">
+      <div class="tag">Admin workspace</div>
+
+      <h2>
+        Review creator
+        <span>submissions.</span>
+      </h2>
+
+      <p>
+        See all submitted campaign videos, check creator details, approve or reject content,
+        and monitor how many creators are registered on Cyron.
+      </p>
     </div>
 
-    <div class="stat-card">
-      <div class="label">Pending Review</div>
-      <div class="value" id="pendingVideos">0</div>
-    </div>
+    <div class="stats-grid">
 
-  </div>
-
-  <div class="admin-layout">
-
-    <div class="panel">
-      <div class="panel-top">
-        <h3>Submitted Videos</h3>
-        <span id="videoCountText">0 submissions</span>
+      <div class="stat-card">
+        <div class="label">Total Creators</div>
+        <div class="value" id="totalCreators">0</div>
       </div>
 
-      <div class="submission-list" id="submissionList"></div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-top">
-        <h3>Registered Creators</h3>
-        <span id="creatorCountText">0 creators</span>
+      <div class="stat-card">
+        <div class="label">Total Videos</div>
+        <div class="value" id="totalVideos">0</div>
       </div>
 
-      <div class="creator-list" id="creatorList"></div>
+      <div class="stat-card">
+        <div class="label">Approved</div>
+        <div class="value" id="approvedVideos">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="label">Pending Review</div>
+        <div class="value" id="pendingVideos">0</div>
+      </div>
+
     </div>
 
-  </div>
+    <div class="admin-layout">
 
-</section>
+      <div class="panel">
+        <div class="panel-top">
+          <h3>Submitted Videos</h3>
+          <span id="videoCountText">0 submissions</span>
+        </div>
 
-<script>
-function applyTheme(){
-  let modeBtn = document.getElementById("modeBtn");
-  let savedMode = localStorage.getItem("cyronTheme");
+        <div class="submission-list" id="submissionList"></div>
+      </div>
 
-  if(savedMode === "dark"){
-    document.body.classList.add("dark");
+      <div class="panel">
+        <div class="panel-top">
+          <h3>Registered Creators</h3>
+          <span id="creatorCountText">0 creators</span>
+        </div>
 
-    if(modeBtn){
-      modeBtn.textContent = "Light Mode";
-    }
+        <div class="creator-list" id="creatorList"></div>
+      </div>
 
-  } else {
-    document.body.classList.remove("dark");
+    </div>
 
-    if(modeBtn){
-      modeBtn.textContent = "Dark Mode";
-    }
-  }
-}
+  </section>
 
-function toggleMode(){
-  document.body.classList.toggle("dark");
-
-  if(document.body.classList.contains("dark")){
-    localStorage.setItem("cyronTheme","dark");
-  } else {
-    localStorage.setItem("cyronTheme","light");
-  }
-
-  applyTheme();
-}
-
-applyTheme();
-</script>
-
-<script type="module">
+  <script type="module">
 import { auth, db } from "./firebase.js";
 
 import {
@@ -609,10 +634,14 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const ADMIN_EMAILS = [
-  "gifegirrafe@gmail.com"
+  "pmitu.prasad@gmail.com"
 ];
 
-onAuthStateChanged(auth,function(user){
+const YOUTUBE_API_KEY = "AIzaSyCnyZ-KebokgYC9fO-8UZvpqAPjBDu3p18";
+const PAY_PER_1000_VIEWS = 0.50;
+const MAX_EARNING_PER_VIDEO = 150;
+
+onAuthStateChanged(auth, async function(user){
 
   if(!user){
     window.location.href = "cyroncreatorlogin.html";
@@ -621,13 +650,145 @@ onAuthStateChanged(auth,function(user){
 
   if(!ADMIN_EMAILS.includes(user.email)){
     alert("Admin access only.");
-    window.location.href = "index.html";
+    window.location.href = "cyronhomepage.html";
     return;
   }
+
+  await autoSyncAllVisibleVideos();
 
   loadAdminData();
 
 });
+
+function extractYouTubeVideoId(url){
+
+  if(!url){
+    return null;
+  }
+
+  try{
+
+    let cleanUrl = url.trim();
+
+    if(cleanUrl.includes("youtu.be/")){
+      return cleanUrl
+      .split("youtu.be/")[1]
+      .split("?")[0]
+      .split("&")[0]
+      .split("/")[0];
+    }
+
+    if(cleanUrl.includes("youtube.com/shorts/")){
+      return cleanUrl
+      .split("youtube.com/shorts/")[1]
+      .split("?")[0]
+      .split("&")[0]
+      .split("/")[0];
+    }
+
+    if(cleanUrl.includes("youtube.com/embed/")){
+      return cleanUrl
+      .split("youtube.com/embed/")[1]
+      .split("?")[0]
+      .split("&")[0]
+      .split("/")[0];
+    }
+
+    if(cleanUrl.includes("youtube.com/watch")){
+      let urlObj = new URL(cleanUrl);
+      return urlObj.searchParams.get("v");
+    }
+
+    return null;
+
+  } catch(error){
+
+    return null;
+
+  }
+}
+
+function calculateEarnings(views){
+
+  let earnings =
+  (Number(views || 0) / 1000) * PAY_PER_1000_VIEWS;
+
+  if(earnings > MAX_EARNING_PER_VIDEO){
+    earnings = MAX_EARNING_PER_VIDEO;
+  }
+
+  return earnings;
+}
+
+async function fetchYouTubeViews(videoId){
+
+  let apiUrl =
+  "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=" +
+  encodeURIComponent(videoId) +
+  "&key=" +
+  encodeURIComponent(YOUTUBE_API_KEY);
+
+  let response =
+  await fetch(apiUrl);
+
+  let data =
+  await response.json();
+
+  if(!response.ok || data.error){
+    throw new Error(data.error?.message || "YouTube API request failed.");
+  }
+
+  if(!data.items || data.items.length === 0){
+    throw new Error("Video not found or not public.");
+  }
+
+  return Number(data.items[0].statistics.viewCount || 0);
+}
+
+async function autoSyncAllVisibleVideos(){
+
+  let snap =
+  await getDocs(collection(db,"submissions"));
+
+  for(const docSnap of snap.docs){
+
+    let item =
+    docSnap.data();
+
+    if(item.hidden === true){
+      continue;
+    }
+
+    let videoId =
+    extractYouTubeVideoId(item.link);
+
+    if(!videoId){
+      continue;
+    }
+
+    try{
+
+      let views =
+      await fetchYouTubeViews(videoId);
+
+      let earnings =
+      calculateEarnings(views);
+
+      await updateDoc(
+        doc(db,"submissions",docSnap.id),
+        {
+          views:views,
+          earnings:earnings.toFixed(2)
+        }
+      );
+
+    } catch(error){
+
+      console.log("Admin auto sync failed:", error.message);
+
+    }
+  }
+}
 
 function getStatusClass(status){
 
@@ -664,7 +825,8 @@ async function loadAdminData(){
 
   submissionSnap.forEach(function(docSnap){
 
-    let data = docSnap.data();
+    let data =
+    docSnap.data();
 
     if(data.hidden === true){
       return;
